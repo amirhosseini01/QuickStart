@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <Using Include="Api" />
+    <InternalsVisibleTo Include="Api.Tests" />
   </ItemGroup>
 
 </Project>

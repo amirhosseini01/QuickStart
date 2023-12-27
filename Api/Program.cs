@@ -10,7 +10,7 @@ builder.Services.AddAuthorizationBuilder().AddCurrentUserHandler();
 builder.Services.AddTokenService();
 
 // Configure the database
-var connectionString = builder.Configuration.GetConnectionString("Todos") ?? "Data Source=.db/Todos.db";
+var connectionString = builder.Configuration.GetConnectionString("Api") ?? "Data Source=.db/Api.db";
 builder.Services.AddSqlite<ApiDbContext>(connectionString);
 
 // Configure identity
