@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api;
 
-public class ApiDbContext : IdentityDbContext<ApiUser>
+public class ApiDbContext : IdentityDbContext<AppUser>
 {
     public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) { }
 

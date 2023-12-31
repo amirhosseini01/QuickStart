@@ -14,8 +14,8 @@ internal class ApiApplication : WebApplicationFactory<Program>
     public async Task CreateUserAsync(string username, string? password = null)
     {
         using var scope = Services.CreateScope();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApiUser>>();
-        var newUser = new ApiUser { UserName = username };
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+        var newUser = new AppUser { UserName = username };
         var result = await userManager.CreateAsync(newUser, password ?? Guid.NewGuid().ToString());
         Assert.True(result.Succeeded);
     }

@@ -13,7 +13,7 @@ public static class UsersApi
 
         group.WithParameterValidation(typeof(UserInfo), typeof(ExternalUserInfo));
 
-        group.MapPost("/", async Task<Results<Ok, ValidationProblem>> (UserInfo newUser, UserManager<ApiUser> userManager) =>
+        group.MapPost("/", async Task<Results<Ok, ValidationProblem>> (UserInfo newUser, UserManager<AppUser> userManager) =>
         {
             var result = await userManager.CreateAsync(new() { UserName = newUser.Username }, newUser.Password);
 
@@ -25,7 +25,7 @@ public static class UsersApi
             return TypedResults.ValidationProblem(result.Errors.ToDictionary(e => e.Code, e => new[] { e.Description }));
         });
 
-        group.MapPost("/token", async Task<Results<BadRequest, Ok<AuthToken>>> (UserInfo userInfo, UserManager<ApiUser> userManager, ITokenService tokenService) =>
+        group.MapPost("/token", async Task<Results<BadRequest, Ok<AuthToken>>> (UserInfo userInfo, UserManager<AppUser> userManager, ITokenService tokenService) =>
         {
             var user = await userManager.FindByNameAsync(userInfo.Username);
 
@@ -37,7 +37,7 @@ public static class UsersApi
             return TypedResults.Ok(new AuthToken(tokenService.GenerateToken(user.UserName!)));
         });
 
-        group.MapPost("/token/{provider}", async Task<Results<Ok<AuthToken>, ValidationProblem>> (string provider, ExternalUserInfo userInfo, UserManager<ApiUser> userManager, ITokenService tokenService) =>
+        group.MapPost("/token/{provider}", async Task<Results<Ok<AuthToken>, ValidationProblem>> (string provider, ExternalUserInfo userInfo, UserManager<AppUser> userManager, ITokenService tokenService) =>
         {
             var user = await userManager.FindByLoginAsync(provider, userInfo.ProviderKey);
 
@@ -45,7 +45,7 @@ public static class UsersApi
 
             if (user is null)
             {
-                user = new ApiUser() { UserName = userInfo.Username };
+                user = new AppUser() { UserName = userInfo.Username };
 
                 result = await userManager.CreateAsync(user);
 

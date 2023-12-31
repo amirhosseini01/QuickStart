@@ -16,9 +16,9 @@ public static class CurrentUserExtensions
     private sealed class ClaimsTransformation : IClaimsTransformation
     {
         private readonly CurrentUser _currentUser;
-        private readonly UserManager<ApiUser> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public ClaimsTransformation(CurrentUser currentUser, UserManager<ApiUser> userManager)
+        public ClaimsTransformation(CurrentUser currentUser, UserManager<AppUser> userManager)
         {
             _currentUser = currentUser;
             _userManager = userManager;

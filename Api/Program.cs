@@ -14,7 +14,7 @@ var connectionString = builder.Configuration.GetConnectionString("Api") ?? "Data
 builder.Services.AddSqlite<ApiDbContext>(connectionString);
 
 // Configure identity
-builder.Services.AddIdentityCore<ApiUser>()
+builder.Services.AddIdentityCore<AppUser>()
                 .AddEntityFrameworkStores<ApiDbContext>();
 
 // State that represents the current user from the database *and* the request

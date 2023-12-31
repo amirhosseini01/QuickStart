@@ -130,7 +130,7 @@ public class UserApiTests
         // Assert.True(response.IsSuccessStatusCode);
 
         using var scope = application.Services.CreateScope();
-        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApiUser>>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
         var user = await userManager.FindByLoginAsync("Google", "1003");
         Assert.NotNull(user);
         Assert.Equal("user", user.UserName);
