@@ -1,6 +1,13 @@
-namespace Api.Modules.Product.Models;
+using System.ComponentModel.DataAnnotations;
 
-public class ProductCategory
+namespace Api.Modules.Product;
+
+public class ProductCategory: BaseEntity
 {
-    
+    [Required]
+    [StringLength(ModelStatics.TitleRequiredLength)]
+    public string Title { get; set; }
+    public bool Visible { get; set; }
+
+    public ICollection<Product> Products { get; }
 }

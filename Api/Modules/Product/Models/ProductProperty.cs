@@ -1,6 +1,6 @@
-namespace Api.Modules.Product.Models;
+namespace Api.Modules.Product;
 
-public class ProductProperty
+public class ProductProperty: BaseEntity
 {
     
 }

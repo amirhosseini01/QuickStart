@@ -1,4 +1,4 @@
-namespace Api.Modules.Product.Models;
+namespace Api.Modules.Product;
 
 public class ProductSeller
 {
