@@ -35,7 +35,8 @@ public class UserApiTests
 
         Assert.Equal("One or more validation errors occurred.", problemDetails.Title);
         Assert.NotEmpty(problemDetails.Errors);
-        Assert.Equal(new[] { "The Password field is required." }, problemDetails.Errors["Password"]);
+        var passwordError = new[] { "The Password field is required." };
+        Assert.Equal(passwordError, problemDetails.Errors["Password"]);
 
         response = await client.PostAsJsonAsync("/users", new UserInfo { Username = "", Password = "password" });
 
@@ -46,7 +47,8 @@ public class UserApiTests
 
         Assert.Equal("One or more validation errors occurred.", problemDetails.Title);
         Assert.NotEmpty(problemDetails.Errors);
-        Assert.Equal(new[] { "The Username field is required." }, problemDetails.Errors["Username"]);
+        var userNameError = new[] { "The Username field is required." };
+        Assert.Equal(userNameError, problemDetails.Errors["Username"]);
     }
 
 

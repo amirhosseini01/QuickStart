@@ -1,6 +1,6 @@
 ﻿namespace Api.Tests;
 
-internal class ApiApplication : WebApplicationFactory<Program>
+internal sealed class ApiApplication : WebApplicationFactory<Program>
 {
     private readonly SqliteConnection _sqliteConnection = new("Filename=:memory:");
 
