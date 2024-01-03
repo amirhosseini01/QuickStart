@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Api.Modules.Product;
 
-public class ProductGallery
+public class ProductGallery: BaseEntity
 {
     public int ProductId { get; set; }
 
