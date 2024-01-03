@@ -10,4 +10,5 @@ public class ProductCategory: BaseEntity
     public bool Visible { get; set; }
 
     public ICollection<Product> Products { get; }
+    public ICollection<ProductProperty> ProductProperties { get; }
 }

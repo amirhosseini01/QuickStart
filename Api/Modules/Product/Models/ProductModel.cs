@@ -22,4 +22,5 @@ public class ProductModel : BaseEntity
     public int Price { get; set; }
 
     public Product Product { get; set; }
+    public ICollection<ProductStock> ProductStocks { get; }
 }

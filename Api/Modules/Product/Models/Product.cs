@@ -6,6 +6,7 @@ public class Product: BaseEntity
 {
     public int ProductCategoryId { get; set; }
     public int ProductBrandId { get; set; }
+    public int ProductSellerId { get; set; }
 
     public int? Order { get; set; }
     
@@ -32,8 +33,12 @@ public class Product: BaseEntity
     public string Description { get; set; }
 
 
+    public ProductSeller ProductSeller { get; set; }
     public ProductCategory ProductCategory { get; set; }
     public ProductBrand ProductBrand { get; set; }
     public ICollection<ProductComment> ProductComments { get; }
     public ICollection<ProductModel> ProductModels { get; }
+    public ICollection<ProductGallery> ProductGalleries { get; }
+    public ICollection<ProductPropertyValue> ProductPropertyValues { get; }
+    public ICollection<ProductStock> ProductStocks { get; }
 }
