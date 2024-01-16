@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Web.Shared;
 
 namespace Web.Server;
 
@@ -57,7 +58,7 @@ public static class AuthApi
         group.MapGet("signin/{provider}", async (string provider, AuthClient client, HttpContext context) =>
         {
             // Grab the login information from the external login dance
-            var result = await context.AuthenticateAsync(AuthenticatonSchemes.ExternalScheme);
+            var result = await context.AuthenticateAsync(AuthenticationSchemes.ExternalScheme);
 
             if (result.Succeeded)
             {
@@ -79,7 +80,7 @@ public static class AuthApi
             }
 
             // Delete the external cookie
-            await context.SignOutAsync(AuthenticatonSchemes.ExternalScheme);
+            await context.SignOutAsync(AuthenticationSchemes.ExternalScheme);
 
             // TODO: Handle the failure somehow
 

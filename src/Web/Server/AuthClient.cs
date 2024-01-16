@@ -1,4 +1,6 @@
-﻿namespace Web.Server;
+﻿using Web.Shared;
+
+namespace Web.Server;
 
 public class AuthClient
 {
