@@ -38,7 +38,5 @@ public class Product: BaseEntity
     public ProductBrand ProductBrand { get; set; }
     public ICollection<ProductComment> ProductComments { get; }
     public ICollection<ProductModel> ProductModels { get; }
-    public ICollection<ProductGallery> ProductGalleries { get; }
-    public ICollection<ProductPropertyValue> ProductPropertyValues { get; }
     public ICollection<ProductStock> ProductStocks { get; }
 }

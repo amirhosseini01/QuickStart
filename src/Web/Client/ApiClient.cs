@@ -1,6 +1,4 @@
-using System.Net;
 using System.Net.Http.Json;
-using Web.Shared;
 
 namespace Web.Client;
 

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20240103212036_Products")]
-    partial class Products
+    [Migration("20240116192004_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -202,32 +202,6 @@ namespace Api.Migrations
                     b.ToTable("ProductComments");
                 });
 
-            modelBuilder.Entity("Api.Modules.Product.ProductGallery", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Alt")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductGalleries");
-                });
-
             modelBuilder.Entity("Api.Modules.Product.ProductModel", b =>
                 {
                     b.Property<int>("Id")
@@ -261,53 +235,6 @@ namespace Api.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductModels");
-                });
-
-            modelBuilder.Entity("Api.Modules.Product.ProductProperty", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProductCategoryId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductCategoryId");
-
-                    b.ToTable("ProductProperties");
-                });
-
-            modelBuilder.Entity("Api.Modules.Product.ProductPropertyValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ProductPropertyId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductPropertyId");
-
-                    b.ToTable("ProductPropertyValues");
                 });
 
             modelBuilder.Entity("Api.Modules.Product.ProductSeller", b =>
@@ -545,17 +472,6 @@ namespace Api.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Api.Modules.Product.ProductGallery", b =>
-                {
-                    b.HasOne("Api.Modules.Product.Product", "Product")
-                        .WithMany("ProductGalleries")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Api.Modules.Product.ProductModel", b =>
                 {
                     b.HasOne("Api.Modules.Product.Product", "Product")
@@ -565,36 +481,6 @@ namespace Api.Migrations
                         .IsRequired();
 
                     b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Api.Modules.Product.ProductProperty", b =>
-                {
-                    b.HasOne("Api.Modules.Product.ProductCategory", "ProductCategory")
-                        .WithMany("ProductProperties")
-                        .HasForeignKey("ProductCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProductCategory");
-                });
-
-            modelBuilder.Entity("Api.Modules.Product.ProductPropertyValue", b =>
-                {
-                    b.HasOne("Api.Modules.Product.Product", "Product")
-                        .WithMany("ProductPropertyValues")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Api.Modules.Product.ProductProperty", "ProductProperty")
-                        .WithMany("ProductPropertyValues")
-                        .HasForeignKey("ProductPropertyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("ProductProperty");
                 });
 
             modelBuilder.Entity("Api.Modules.Product.ProductSeller", b =>
@@ -687,11 +573,7 @@ namespace Api.Migrations
                 {
                     b.Navigation("ProductComments");
 
-                    b.Navigation("ProductGalleries");
-
                     b.Navigation("ProductModels");
-
-                    b.Navigation("ProductPropertyValues");
 
                     b.Navigation("ProductStocks");
                 });
@@ -703,19 +585,12 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api.Modules.Product.ProductCategory", b =>
                 {
-                    b.Navigation("ProductProperties");
-
                     b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Api.Modules.Product.ProductModel", b =>
                 {
                     b.Navigation("ProductStocks");
-                });
-
-            modelBuilder.Entity("Api.Modules.Product.ProductProperty", b =>
-                {
-                    b.Navigation("ProductPropertyValues");
                 });
 #pragma warning restore 612, 618
         }
