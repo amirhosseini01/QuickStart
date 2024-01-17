@@ -1,6 +1,5 @@
+using Client;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Web.Client;
-
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddHttpClient<ApiClient>(client =>

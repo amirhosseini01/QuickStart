@@ -1,6 +1,7 @@
 using System.Net.Http.Json;
+using Web.Shared.User;
 
-namespace Web.Client;
+namespace Client;
 
 public class ApiClient
 {

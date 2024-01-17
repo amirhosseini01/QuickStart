@@ -1,6 +1,6 @@
 /* Shared classes can be referenced by both the Client and Server */
 using System.ComponentModel.DataAnnotations;
-namespace Web;
+namespace Web.Shared.User;
 public class UserInfo
 {
     [Required]

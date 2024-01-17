@@ -1,4 +1,4 @@
-﻿
+﻿using Web.Shared.User;
 
 namespace Web.Server;
 
