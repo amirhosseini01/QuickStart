@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Api.Modules.Product;
 
@@ -20,7 +19,5 @@ public class ProductSeller : BaseEntity
 
     [StringLength(ModelStatics.DescriptionRequiredLength)]
     public string PostalAddress { get; set; }
-
-    [ForeignKey(nameof(UserId))]
     public AppUser User { get; set; }
 }
