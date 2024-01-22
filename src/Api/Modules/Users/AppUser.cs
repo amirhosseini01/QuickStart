@@ -9,6 +9,8 @@ namespace Api;
 public class AppUser : IdentityUser
 {
     public ICollection<ProductSeller> ProductSellers { get; }
+    public ICollection<ProductComment> ProductComments { get; }
+    public ICollection<ProductStock> ProductStocks { get; }
 }
 
 // This is the DTO used to exchange username and password details to 
