@@ -1,4 +1,5 @@
 ﻿using Api.Modules.Product;
+using Api.Modules.Product.Cms;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,5 +17,8 @@ public class ApiDbContext : IdentityDbContext<AppUser>
     public DbSet<ProductModel> ProductModels { get; set; }
     public DbSet<ProductSeller> ProductSellers { get; set; }
     public DbSet<ProductStock> ProductStocks { get; set; }
+
+    // CMS
+    public DbSet<Slider> Sliders { get; set; }
 	protected override void OnModelCreating(ModelBuilder builder) => base.OnModelCreating(builder);
 }
