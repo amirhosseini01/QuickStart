@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Modules.Product;
 
@@ -7,7 +8,7 @@ public class ProductModel : BaseEntity
 {
     public int ProductId { get; set; }
 
-    public int? Order { get; set; }
+    public int? OrderView { get; set; }
 
     [Required]
     [StringLength(ModelStatics.TitleRequiredLength)]
@@ -21,6 +22,7 @@ public class ProductModel : BaseEntity
     public string Value { get; set; }
     public int Price { get; set; }
 
+    [DeleteBehavior(DeleteBehavior.Restrict)]
     public Product Product { get; set; }
     public ICollection<ProductStock> ProductStocks { get; }
 }

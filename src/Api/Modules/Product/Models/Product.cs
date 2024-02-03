@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Modules.Product;
 
@@ -8,7 +9,7 @@ public class Product: BaseEntity
     public int ProductBrandId { get; set; }
     public int ProductSellerId { get; set; }
 
-    public int? Order { get; set; }
+    public int? OrderOrderView { get; set; }
     
     [Required]
     [StringLength(ModelStatics.TitleRequiredLength)]
@@ -32,9 +33,13 @@ public class Product: BaseEntity
     [Required]
     public string Description { get; set; }
 
-
+    [DeleteBehavior(DeleteBehavior.Restrict)]
     public ProductSeller ProductSeller { get; set; }
+
+    [DeleteBehavior(DeleteBehavior.Restrict)]
     public ProductCategory ProductCategory { get; set; }
+
+    [DeleteBehavior(DeleteBehavior.Restrict)]
     public ProductBrand ProductBrand { get; set; }
     public ICollection<ProductComment> ProductComments { get; }
     public ICollection<ProductModel> ProductModels { get; }
