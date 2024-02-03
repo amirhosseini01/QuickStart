@@ -1,0 +1,74 @@
+@using Shared.Products.Enums;
+
+@if (BannerPlace == BannerPlace.FirstFourItem)
+{
+    <!-- start first banner -->
+    <div class="container ps-md-0 pe-md-0 mt-5">
+        <div class="row gy-3">
+            <div class="col-6 col-md-3">
+                <a href="#" title="...">
+                    <img src="img/banner/b1.webp" class="img-fluid rounded-5" alt="..." title="..." />
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="#" title="...">
+                    <img src="img/banner/b2.webp" class="img-fluid rounded-5" alt="..." title="..." />
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="#" title="...">
+                    <img src="img/banner/b3.webp" class="img-fluid rounded-5" alt="..." title="..." />
+                </a>
+            </div>
+            <div class="col-6 col-md-3">
+                <a href="#" title="...">
+                    <img src="img/banner/b4.webp" class="img-fluid rounded-5" alt="..." title="..." />
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- end first banner -->
+}
+else if(BannerPlace == BannerPlace.FirstTwoItem)
+{
+  <!-- start second banner -->
+  <div class="container ps-md-0 pe-md-0 mt-5">
+    <div class="row gy-3">
+      <div class="col-12 col-md-6">
+        <a href="#" title="...">
+          <img src="img/banner/b5.webp" class="img-fluid rounded-5" alt="..." title="..." />
+        </a>
+      </div>
+      <div class="col-12 col-md-6">
+        <a href="#" title="...">
+          <img src="img/banner/b6.webp" class="img-fluid rounded-5" alt="..." title="..." />
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- end second banner -->
+}
+else if(BannerPlace == BannerPlace.SecondTwoItem)
+{
+  <!-- start third banner -->
+  <div class="container ps-md-0 pe-md-0 mt-5">
+    <div class="row gy-3">
+      <div class="col-12 col-md-6">
+        <a href="#" title="...">
+          <img src="img/banner/b7.gif" class="img-fluid rounded-5" alt="..." title="..." />
+        </a>
+      </div>
+      <div class="col-12 col-md-6">
+        <a href="#" title="...">
+          <img src="img/banner/b8.webp" class="img-fluid rounded-5" alt="..." title="..." />
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- end third banner -->
+}
+
+@code {
+    [Parameter]
+    public BannerPlace BannerPlace { get; set; }
+}
