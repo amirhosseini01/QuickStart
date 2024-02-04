@@ -4,5 +4,7 @@ public enum BannerPlace
 {
     FirstFourItem,
     FirstTwoItem,
-    SecondTwoItem
+    SecondTwoItem,
+    ThirdTwoItem,
+    FirstSingleItem
 }

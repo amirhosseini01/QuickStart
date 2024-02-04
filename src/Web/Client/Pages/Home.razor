@@ -1,4 +1,5 @@
 ﻿@using Client.Components.Products
+@using Client.Components.Cms
 @page "/"
 
 <Slider />
@@ -7,4 +8,32 @@
 
 <FreshDiscount />
 
+<Banner BannerPlace="@Shared.Products.Enums.BannerPlace.FirstTwoItem"/>
+
+<Categories />
+
+<FreshDiscount />
+
 <Banner BannerPlace="@Shared.Products.Enums.BannerPlace.SecondTwoItem"/>
+
+<CategorySuggestions />
+
+<Banner BannerPlace="@Shared.Products.Enums.BannerPlace.ThirdTwoItem"/>
+
+<Brands />
+
+<IndexProducts />
+
+<Banner BannerPlace="@Shared.Products.Enums.BannerPlace.FirstSingleItem"/>
+
+<IndexProducts />
+
+<TopSales />
+
+<DiscountOffers />
+
+<TopSales />
+
+<News />
+
+<Footer />
