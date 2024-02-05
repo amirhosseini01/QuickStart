@@ -10,14 +10,11 @@ public static class AuthorizationHandlerExtensions
         return builder;
     }
 
-    // Adds the current user requirement that will activate our authorization handler
-    public static AuthorizationPolicyBuilder RequireCurrentUser(this AuthorizationPolicyBuilder builder)
-    {
-        return builder.RequireAuthenticatedUser()
-                      .AddRequirements(new CheckCurrentUserRequirement());
-    }
+	// Adds the current user requirement that will activate our authorization handler
+	public static AuthorizationPolicyBuilder RequireCurrentUser(this AuthorizationPolicyBuilder builder) => 
+        builder.RequireAuthenticatedUser().AddRequirements(new CheckCurrentUserRequirement());
 
-    private class CheckCurrentUserRequirement : IAuthorizationRequirement { }
+	private class CheckCurrentUserRequirement : IAuthorizationRequirement { }
 
     // This authorization handler verifies that the user exists even if there's
     // a valid token

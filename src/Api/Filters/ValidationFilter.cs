@@ -37,21 +37,18 @@ public static class ValidationFilterExtensions
             // We can respond with problem details if there's a validation error
             eb.Metadata.Add(new ProducesResponseTypeMetadata(typeof(HttpValidationProblemDetails), 400, "application/problem+json"));
 
-            eb.FilterFactories.Add((context, next) =>
-            {
-                return efic =>
-                {
-                    foreach (var index in parameterIndexesToValidate)
-                    {
-                        if (efic.Arguments[index] is { } arg && !MiniValidator.TryValidate(arg, out var errors))
-                        {
-                            return new ValueTask<object?>(Results.ValidationProblem(errors));
-                        }
-                    }
+            eb.FilterFactories.Add((context, next) => efic =>
+				{
+					foreach (var index in parameterIndexesToValidate)
+					{
+						if (efic.Arguments[index] is { } arg && !MiniValidator.TryValidate(arg, out var errors))
+						{
+							return new ValueTask<object?>(Results.ValidationProblem(errors));
+						}
+					}
 
-                    return next(efic);
-                };
-            });
+					return next(efic);
+				});
         });
 
         return builder;
@@ -62,9 +59,9 @@ public static class ValidationFilterExtensions
     {
         public ProducesResponseTypeMetadata(Type type, int statusCode, string contentType)
         {
-            Type = type;
-            StatusCode = statusCode;
-            ContentTypes = new[] { contentType };
+			this.Type = type;
+            this.StatusCode = statusCode;
+            this.ContentTypes = new[] { contentType };
         }
 
         public Type Type { get; }

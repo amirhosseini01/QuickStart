@@ -10,11 +10,9 @@ namespace Api;
 
 public static class AuthenticationServiceExtensions
 {
-    public static IServiceCollection AddTokenService(this IServiceCollection services)
-    {
-        // Wire up the token service
-        return services.AddSingleton<ITokenService, TokenService>();
-    }
+	public static IServiceCollection AddTokenService(this IServiceCollection services) =>
+		// Wire up the token service
+		services.AddSingleton<ITokenService, TokenService>();
 }
 
 public interface ITokenService
