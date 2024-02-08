@@ -3,7 +3,6 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" />
     <PackageReference Include="Yarp.ReverseProxy" />
-    <PackageReference Include="Microsoft.Tye.Extensions.Configuration" />
   </ItemGroup>
 
   <ItemGroup>

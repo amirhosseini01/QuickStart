@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Web.Server;
 
 public static class AuthenticationExtensions
 {
-    private delegate void ExternalAuthProvider(AuthenticationBuilder authenticationBuilder, Action<object> configure);
-
     public static WebApplicationBuilder AddAuthentication(this WebApplicationBuilder builder)
     {
         // Our default scheme is cookies

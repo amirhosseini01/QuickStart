@@ -12,8 +12,7 @@ builder.Services.AddRazorPages();
 // Add the forwarder to make sending requests to the backend easier
 builder.Services.AddHttpForwarder();
 
-var url = builder.Configuration.GetServiceUri("api")?.ToString() ??
-              builder.Configuration["ApiUrl"] ??
+var url = builder.Configuration["ApiUrl"] ??
               throw new InvalidOperationException("API URL is not configured");
 
 // Configure the HttpClient for the backend API
