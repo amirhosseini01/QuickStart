@@ -13,14 +13,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddHttpForwarder();
 
 var url = builder.Configuration.GetServiceUri("api")?.ToString() ??
-              builder.Configuration["ApiUrl"] ?? 
+              builder.Configuration["ApiUrl"] ??
               throw new InvalidOperationException("API URL is not configured");
 
 // Configure the HttpClient for the backend API
-builder.Services.AddHttpClient<AuthClient>(client =>
-{
-    client.BaseAddress = new(url);
-});
+builder.Services.AddHttpClient<AuthClient>(client => client.BaseAddress = new(url));
 
 var app = builder.Build();
 
@@ -48,7 +45,5 @@ app.MapFallbackToPage("/_Host");
 
 // Configure the APIs
 app.MapAuth();
-app.MapApi(url);
 
 app.Run();
-

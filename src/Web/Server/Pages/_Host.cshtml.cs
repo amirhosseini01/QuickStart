@@ -11,8 +11,5 @@ public class IndexModel : PageModel
 
     public string? CurrentUserName { get; set; }
 
-    public void OnGet()
-    {
-        CurrentUserName = User.Identity!.Name;
-    }
+	public void OnGet() => this.CurrentUserName = this.User.Identity!.Name;
 }

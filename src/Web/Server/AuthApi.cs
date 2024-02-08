@@ -37,65 +37,16 @@ public static class AuthApi
             return SignIn(userInfo, token);
         });
 
-        group.MapPost("logout", async (HttpContext context) =>
-        {
-            await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            // TODO: Support remote logout
-        })
-        .RequireAuthorization();
-
-        // External login
-        group.MapGet("login/{provider}", (string provider) =>
-        {
-            // Trigger the external login flow by issuing a challenge with the provider name.
-            // This name maps to the registered authentication scheme names in AuthenticationExtensions.cs
-            return Results.Challenge(
-                properties: new() { RedirectUri = $"/auth/signin/{provider}" },
-                authenticationSchemes: new[] { provider });
-        });
-
-        group.MapGet("signin/{provider}", async (string provider, AuthClient client, HttpContext context) =>
-        {
-            // Grab the login information from the external login dance
-            var result = await context.AuthenticateAsync(AuthenticationSchemes.ExternalScheme);
-
-            if (result.Succeeded)
-            {
-                var principal = result.Principal;
-
-                var id = principal.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
-                // TODO: We should have the user pick a user name to complete the external login dance
-                // for now we'll prefer the email address
-                var name = (principal.FindFirstValue(ClaimTypes.Email) ?? principal.Identity?.Name)!;
-
-                var token = await client.GetOrCreateUserAsync(provider, new() { Username = name, ProviderKey = id });
-
-                if (token is not null)
-                {
-                    // Write the login cookie
-                    await SignIn(id, name, token, provider).ExecuteAsync(context);
-                }
-            }
-
-            // Delete the external cookie
-            await context.SignOutAsync(AuthenticationSchemes.ExternalScheme);
-
-            // TODO: Handle the failure somehow
-
-            return Results.Redirect("/");
-        });
+        group.MapPost("logout", async (HttpContext context) => 
+            await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme))
+                .RequireAuthorization();
 
         return group;
     }
 
-    private static IResult SignIn(UserInfo userInfo, string token)
-    {
-        return SignIn(userInfo.Username, userInfo.Username, token, providerName: null);
-    }
+	private static IResult SignIn(UserInfo userInfo, string token) => SignIn(userInfo.Username, userInfo.Username, token);
 
-    private static IResult SignIn(string userId, string userName, string token, string? providerName)
+	private static IResult SignIn(string userId, string userName, string token)
     {
         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
         identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));
