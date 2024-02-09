@@ -6,27 +6,18 @@ internal sealed class ApiApplication : WebApplicationFactory<Program>
 
     public ApiDbContext CreateApiDbContext()
     {
-        var db = Services.GetRequiredService<IDbContextFactory<ApiDbContext>>().CreateDbContext();
+        var db = this.Services.GetRequiredService<IDbContextFactory<ApiDbContext>>().CreateDbContext();
         db.Database.EnsureCreated();
         return db;
     }
 
     public async Task CreateUserAsync(string username, string? password = null)
     {
-        using var scope = Services.CreateScope();
+        using var scope = this.Services.CreateScope();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
         var newUser = new AppUser { UserName = username };
         var result = await userManager.CreateAsync(newUser, password ?? Guid.NewGuid().ToString());
         Assert.True(result.Succeeded);
-    }
-
-    public HttpClient CreateClient(string id, bool isAdmin = false)
-    {
-        return CreateDefaultClient(new AuthHandler(req =>
-        {
-            var token = CreateToken(id, isAdmin);
-            req.Headers.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, token);
-        }));
     }
 
     protected override IHost CreateHost(IHostBuilder builder)
@@ -60,46 +51,18 @@ internal sealed class ApiApplication : WebApplicationFactory<Program>
         RandomNumberGenerator.Fill(keyBytes);
         var base64Key = Convert.ToBase64String(keyBytes);
 
-        builder.ConfigureAppConfiguration(config =>
-        {
-            config.AddInMemoryCollection(new Dictionary<string, string?>
-            {
-                ["Authentication:Schemes:Bearer:SigningKeys:0:Issuer"] = "dotnet-user-jwts",
-                ["Authentication:Schemes:Bearer:SigningKeys:0:Value"] = base64Key
-            });
-        });
+        builder.ConfigureAppConfiguration(config => config.AddInMemoryCollection(new Dictionary<string, string?>
+		{
+			["Authentication:Schemes:Bearer:SigningKeys:0:Issuer"] = "dotnet-user-jwts",
+			["Authentication:Schemes:Bearer:SigningKeys:0:Value"] = base64Key
+		}));
 
         return base.CreateHost(builder);
-    }
-
-    private string CreateToken(string id, bool isAdmin = false)
-    {
-        // Read the user JWTs configuration for testing so unit tests can generate
-        // JWT tokens.
-        var tokenService = Services.GetRequiredService<ITokenService>();
-
-        return tokenService.GenerateToken(id, isAdmin);
     }
 
     protected override void Dispose(bool disposing)
     {
         _sqliteConnection?.Dispose();
         base.Dispose(disposing);
-    }
-
-    private sealed class AuthHandler : DelegatingHandler
-    {
-        private readonly Action<HttpRequestMessage> _onRequest;
-
-        public AuthHandler(Action<HttpRequestMessage> onRequest)
-        {
-            _onRequest = onRequest;
-        }
-
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            _onRequest(request);
-            return base.SendAsync(request, cancellationToken);
-        }
     }
 }

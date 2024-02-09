@@ -6,12 +6,9 @@ namespace Client;
 public class ApiClient
 {
     private readonly HttpClient _client;
-    public ApiClient(HttpClient client)
-    {
-        _client = client;
-    }
+	public ApiClient(HttpClient client) => _client = client;
 
-    public async Task<bool> LoginAsync(string? username, string? password)
+	public async Task<bool> LoginAsync(string? username, string? password)
     {
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
@@ -35,7 +32,8 @@ public class ApiClient
 
     public async Task<bool> LogoutAsync()
     {
-        var response = await _client.PostAsync("auth/logout", content: null);
+        var uri = new Uri("auth/logout");
+        var response = await _client.PostAsync(uri, content: null).ConfigureAwait(false);
         return response.IsSuccessStatusCode;
     }
 }

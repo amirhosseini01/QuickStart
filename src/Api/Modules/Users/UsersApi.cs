@@ -11,7 +11,7 @@ public static class UsersApi
 
         group.WithTags("Users");
 
-        group.WithParameterValidation(typeof(UserInfo), typeof(ExternalUserInfo));
+        group.WithParameterValidation(typeof(UserInfo));
 
         group.MapPost("/", async Task<Results<Ok, ValidationProblem>> (UserInfo newUser, UserManager<AppUser> userManager) =>
         {
@@ -35,32 +35,6 @@ public static class UsersApi
             }
 
             return TypedResults.Ok(new AuthToken(tokenService.GenerateToken(user.UserName!)));
-        });
-
-        group.MapPost("/token/{provider}", async Task<Results<Ok<AuthToken>, ValidationProblem>> (string provider, ExternalUserInfo userInfo, UserManager<AppUser> userManager, ITokenService tokenService) =>
-        {
-            var user = await userManager.FindByLoginAsync(provider, userInfo.ProviderKey);
-
-            var result = IdentityResult.Success;
-
-            if (user is null)
-            {
-                user = new AppUser() { UserName = userInfo.Username };
-
-                result = await userManager.CreateAsync(user);
-
-                if (result.Succeeded)
-                {
-                    result = await userManager.AddLoginAsync(user, new UserLoginInfo(provider, userInfo.ProviderKey, displayName: null));
-                }
-            }
-
-            if (result.Succeeded)
-            {
-                return TypedResults.Ok(new AuthToken(tokenService.GenerateToken(user.UserName!)));
-            }
-
-            return TypedResults.ValidationProblem(result.Errors.ToDictionary(e => e.Code, e => new[] { e.Description }));
         });
 
         return group;
