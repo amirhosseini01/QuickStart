@@ -9,7 +9,7 @@ public class Product: BaseEntity
     public int ProductBrandId { get; set; }
     public int ProductSellerId { get; set; }
 
-    public int? OrderOrderView { get; set; }
+    public int? ViewOrder { get; set; }
     
     [Required]
     [StringLength(ModelStatics.TitleRequiredLength)]

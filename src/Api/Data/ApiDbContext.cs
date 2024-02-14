@@ -19,6 +19,6 @@ public class ApiDbContext : IdentityDbContext<AppUser>
     public DbSet<ProductStock> ProductStocks { get; set; }
 
     // CMS
-    public DbSet<Slider> Sliders { get; set; }
+    // public DbSet<Slider> Sliders { get; set; }
 	protected override void OnModelCreating(ModelBuilder builder) => base.OnModelCreating(builder);
 }

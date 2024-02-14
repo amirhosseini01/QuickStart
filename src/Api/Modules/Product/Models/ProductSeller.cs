@@ -5,6 +5,7 @@ namespace Api.Modules.Product;
 
 public class ProductSeller : BaseEntity
 {
+    [Required]
     [StringLength(ModelStatics.UserRequiredLength)]
     public string UserId { get; set; }
 
