@@ -1,5 +1,4 @@
 using Api.Common;
-using Api.Modules.Product;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +11,8 @@ var connectionString = builder.Configuration.GetConnectionString("Api") ?? "Data
 builder.Services.AddSqlite<ApiDbContext>(connectionString);
 
 builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<ApiDbContext>();
+
+builder.Services.AddControllers();
 
 builder.Services.AddScrutor();
 
@@ -30,8 +31,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseRateLimiter();
 
+app.MapControllers();
+
 app.Map("/", () => Results.Redirect("/swagger"));
 app.MapUsers();
-app.MapProducts();
 
 app.Run();

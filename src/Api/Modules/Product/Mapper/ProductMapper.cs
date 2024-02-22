@@ -2,8 +2,8 @@ namespace Api.Modules.Product;
 
 public static class ProductMapper
 {
-    public static IQueryable<ProductListVm> MapProductList(this IQueryable<Product> query) =>
-        query.Select(x => new ProductListVm
+    public static IQueryable<ProductListDto> MapProductList(this IQueryable<Product> query) =>
+        query.Select(x => new ProductListDto
         {
             Id = x.Id,
             Thumbnail = x.Thumbnail,

@@ -4,5 +4,5 @@ namespace Api.Modules.Product;
 
 public interface IProductRepository: IGenericRepository<Product>
 {
-    Task<PaginatedList<ProductListVm>> GetProductLists(ProductListFilter filter, CancellationToken cancellationToken = default);
+    Task<PaginatedList<ProductListDto>> GetProductLists(ProductListFilterDto filter, CancellationToken cancellationToken = default);
 }

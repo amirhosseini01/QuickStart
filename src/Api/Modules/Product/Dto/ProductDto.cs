@@ -7,7 +7,7 @@ public class ProductVm
 
 }
 
-public class ProductListVm
+public class ProductListDto
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -15,7 +15,7 @@ public class ProductListVm
     public int Price { get; set; }
 }
 
-public class ProductListFilter: PaginatedListFilter
+public class ProductListFilterDto: PaginatedListFilter
 {
 
 }
