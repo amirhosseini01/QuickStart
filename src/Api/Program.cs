@@ -1,3 +1,4 @@
+using Api.Common;
 using Api.Modules.Product;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ var connectionString = builder.Configuration.GetConnectionString("Api") ?? "Data
 builder.Services.AddSqlite<ApiDbContext>(connectionString);
 
 builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<ApiDbContext>();
+
+builder.Services.AddScrutor();
 
 builder.Services.AddCurrentUser();
 

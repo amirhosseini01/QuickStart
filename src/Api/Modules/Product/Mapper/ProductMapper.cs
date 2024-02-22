@@ -8,6 +8,6 @@ public static class ProductMapper
             Id = x.Id,
             Thumbnail = x.Thumbnail,
             Title = x.Title,
-            Price = x.ProductModels.Select(xx => xx.Price).Order().FirstOrDefault()
+            // Price = x.ProductModels.Select(xx => xx.Price).Order().FirstOrDefault()
         });
 }

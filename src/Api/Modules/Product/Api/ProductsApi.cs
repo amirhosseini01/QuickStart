@@ -10,7 +10,7 @@ public static class ProductsApi
 
         group.WithTags("Products");
 
-        group.MapGet("/", async Task<Results<Ok<List<ProductListVm>>, EmptyHttpResult>> (ProductListFilter filter, IProductRepository ProductRepository, CancellationToken cancellationToken) =>
+        group.MapPost("/", async Task<Results<Ok<List<ProductListVm>>, EmptyHttpResult>> (ProductListFilter filter, IProductRepository ProductRepository, CancellationToken cancellationToken) =>
         {
             var products = await ProductRepository.GetProductLists(filter: filter, cancellationToken: cancellationToken);
             return TypedResults.Ok(products);
