@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Modules.Shared;
+namespace Api.Common;
 
 public class PaginatedList<T> : List<T>
 {

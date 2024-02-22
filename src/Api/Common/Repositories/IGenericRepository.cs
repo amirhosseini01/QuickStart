@@ -1,4 +1,4 @@
-namespace Api.Modules.Shared;
+namespace Api.Common;
 
 public interface IGenericRepository<T> where T: BaseEntity
 {

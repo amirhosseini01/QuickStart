@@ -1,4 +1,4 @@
-using Api.Modules.Shared;
+using Api.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Modules.Product;

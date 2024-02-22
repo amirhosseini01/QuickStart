@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Api.Common;
 
 namespace Api.Modules.Product.Cms;
 public class Slider: BaseEntity

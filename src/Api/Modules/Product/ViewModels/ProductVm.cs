@@ -1,4 +1,4 @@
-using Api.Modules.Shared;
+using Api.Common;
 
 namespace Api.Modules.Product;
 

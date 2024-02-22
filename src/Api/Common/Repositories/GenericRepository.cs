@@ -1,7 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Modules.Shared;
+namespace Api.Common;
 
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 {
