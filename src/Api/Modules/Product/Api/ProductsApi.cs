@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using Api.Common;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Api.Modules.Product;
 
@@ -10,7 +11,7 @@ public static class ProductsApi
 
         group.WithTags("Products");
 
-        group.MapPost("/", async Task<Results<Ok<List<ProductListVm>>, EmptyHttpResult>> (ProductListFilter filter, IProductRepository ProductRepository, CancellationToken cancellationToken) =>
+        group.MapPost("/", async Task<Results<Ok<PaginatedList<ProductListVm>>, EmptyHttpResult>> (ProductListFilter filter, IProductRepository ProductRepository, CancellationToken cancellationToken) =>
         {
             var products = await ProductRepository.GetProductLists(filter: filter, cancellationToken: cancellationToken);
             return TypedResults.Ok(products);

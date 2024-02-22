@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Common;
@@ -31,6 +32,9 @@ public class PaginatedList<T> : List<T>
 
 public class PaginatedListFilter
 {
-    public int PageIndex {get; set;}
-    public int TakeSize {get; set;}
+    [Range(minimum: 1, maximum: int.MaxValue)]
+    public int PageIndex {get; set;} = 1;
+    
+    [Range(minimum: 1, maximum: 100)]
+    public int TakeSize {get; set;} = 10;
 }
