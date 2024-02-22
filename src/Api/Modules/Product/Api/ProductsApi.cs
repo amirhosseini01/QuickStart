@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
 
-namespace Api;
+namespace Api.Modules.Product;
 
 public static class ProductsApi
 {
@@ -11,9 +10,10 @@ public static class ProductsApi
 
         group.WithTags("Products");
 
-        group.MapGet("/", async Task<Results<Ok, EmptyHttpResult>> (UserManager<AppUser> userManager) =>
+        group.MapGet("/", async Task<Results<Ok<List<ProductListVm>>, EmptyHttpResult>> (ProductListFilter filter, IProductRepository ProductRepository, CancellationToken cancellationToken) =>
         {
-            return TypedResults.Ok();
+            var products = await ProductRepository.GetProductLists(filter: filter, cancellationToken: cancellationToken);
+            return TypedResults.Ok(products);
         });
 
         return group;

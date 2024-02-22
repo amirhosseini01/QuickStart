@@ -1,43 +1,34 @@
+using Api.Modules.Product;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure auth
 builder.AddAuthentication();
 builder.Services.AddAuthorizationBuilder().AddCurrentUserHandler();
 
-// Add the service to generate JWT tokens
 builder.Services.AddTokenService();
 
-// Configure the database
 var connectionString = builder.Configuration.GetConnectionString("Api") ?? "Data Source=.db/Api.db";
 builder.Services.AddSqlite<ApiDbContext>(connectionString);
 
-// Configure identity
-builder.Services.AddIdentityCore<AppUser>()
-                .AddEntityFrameworkStores<ApiDbContext>();
+builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<ApiDbContext>();
 
-// State that represents the current user from the database *and* the request
 builder.Services.AddCurrentUser();
 
-// Configure Open API
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(o => o.InferSecuritySchemes());
+builder.Services.AddEndpointsApiExplorer().AddSwaggerGen(o => o.InferSecuritySchemes());
 
-// Configure rate limiting
 builder.Services.AddRateLimiting();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger().UseSwaggerUI();
 }
 
 app.UseRateLimiter();
 
 app.Map("/", () => Results.Redirect("/swagger"));
-
-// Configure the APIs
 app.MapUsers();
+app.MapProducts();
 
 app.Run();
