@@ -20,7 +20,7 @@ public class ProductController : ControllerBase
         return TypedResults.Ok(products);
     }
 
-    [HttpGet]
+    [HttpGet("{id}")]
     [ProducesResponseType(typeof(ProductDetailDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> Product([FromRoute] int id, CancellationToken cancellationToken)
