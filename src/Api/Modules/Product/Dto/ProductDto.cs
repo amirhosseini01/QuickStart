@@ -32,7 +32,7 @@ public class ProductDetailDto
     public ProductProductSellerDto ProductSeller { get; set; }
     public ProductProductBrandDto ProductBrand { get; set; }
     public ProductProductCategoryDto ProductCategory { get; set; }
-    public ICollection<ProductProductModelDto> ProductModels { get; set; }
+    public ICollection<ProductProductModelDto> ProductModels { get; init; }
 
 }
 public class ProductProductSellerDto

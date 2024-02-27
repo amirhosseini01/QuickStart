@@ -126,6 +126,11 @@ namespace Api.Migrations
                 table: "ProductSellers",
                 newName: "IX_ProductSellers_UserId");
 
+            migrationBuilder.RenameColumn(
+                name: "OrderView",
+                table: "ProductModels",
+                newName: "ViewOrder");
+
             migrationBuilder.RenameIndex(
                 name: "IX_ProductModel_ProductId",
                 table: "ProductModels",
@@ -405,6 +410,11 @@ namespace Api.Migrations
                 name: "IX_Products_ProductBrandId",
                 table: "Product",
                 newName: "IX_Product_ProductBrandId");
+
+            migrationBuilder.RenameColumn(
+                name: "ViewOrder",
+                table: "ProductModel",
+                newName: "OrderView");
 
             migrationBuilder.RenameIndex(
                 name: "IX_ProductModels_ProductId",

@@ -212,9 +212,6 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrderView")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
@@ -233,6 +230,9 @@ namespace Api.Migrations
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("ViewOrder")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

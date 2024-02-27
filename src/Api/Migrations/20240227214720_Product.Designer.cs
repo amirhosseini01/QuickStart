@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20240222131526_Product")]
+    [Migration("20240227214720_Product")]
     partial class Product
     {
         /// <inheritdoc />
@@ -215,9 +215,6 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("OrderView")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Price")
                         .HasColumnType("INTEGER");
 
@@ -236,6 +233,9 @@ namespace Api.Migrations
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("ViewOrder")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
