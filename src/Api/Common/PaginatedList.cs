@@ -23,10 +23,10 @@ public class PaginatedList<T> : List<T>
         this.AddRange(items);
     }
 
-    public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, PaginatedListFilter filter)
+    public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, PaginatedListFilter filter, CancellationToken cancellationToken = default)
     {
         var count = await source.CountAsync();
-        var items = await source.Skip((filter.PageIndex - 1) * filter.TakeSize).Take(filter.TakeSize).ToListAsync();
+        var items = await source.Skip((filter.PageIndex - 1) * filter.TakeSize).Take(filter.TakeSize).ToListAsync(cancellationToken);
         return new PaginatedList<T>(items, count, filter);
     }
 }
