@@ -6,6 +6,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
     <PackageReference Include="MiniValidation" />
+    <PackageReference Include="Riok.Mapperly" />
     <PackageReference Include="Scrutor" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>

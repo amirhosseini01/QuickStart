@@ -1,6 +1,8 @@
+using Riok.Mapperly.Abstractions;
+
 namespace Api.Modules.Product;
 
-public static class ProductMapper
+public static class ProductManualMapper
 {
     public static IQueryable<ProductListDto> MapProductList(this IQueryable<Product> query) =>
         query.Select(x => new ProductListDto
@@ -38,7 +40,7 @@ public static class ProductMapper
             Id = x.ProductCategoryId,
             Title = x.ProductCategory.Title
         },
-        ProductModels = x.ProductModels.Select(xx=> new ProductProductModelDto
+        ProductModels = x.ProductModels.Select(xx => new ProductProductModelDto
         {
             ViewOrder = xx.ViewOrder,
             Type = xx.Type,
@@ -47,4 +49,16 @@ public static class ProductMapper
             Value = xx.Value,
         }).ToList(),
     });
+}
+
+[Mapper]
+public partial class ProductMapper
+{
+    [MapperIgnoreSource(nameof(Product.Image))]
+    [MapperIgnoreSource(nameof(Product.Thumbnail))]
+    public partial Product AdminInputToProduct(ProductAdminInputDto input);
+    
+    [MapperIgnoreSource(nameof(Product.Image))]
+    [MapperIgnoreSource(nameof(Product.Thumbnail))]
+    public partial void AdminInputToProduct(Product product, ProductAdminInputDto input);
 }

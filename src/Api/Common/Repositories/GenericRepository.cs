@@ -19,6 +19,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
 	public async Task<T?> FirstOrDefaultAsync(int id, CancellationToken cancellationToken = default) => await entities.FirstOrDefaultAsync(x=> x.Id == id, cancellationToken);
 	public void Remove(T item) => entities.Remove(item);
 	public void RemoveRange(ICollection<T> items) =>  entities.RemoveRange(items);
-	public async Task SaveChangesAsync() => await _context.SaveChangesAsync();
+	public async Task SaveChangesAsync(CancellationToken cancellationToken = default) => await _context.SaveChangesAsync();
 	public void UpdateRange(ICollection<T> items) => entities.UpdateRange(items);
 }

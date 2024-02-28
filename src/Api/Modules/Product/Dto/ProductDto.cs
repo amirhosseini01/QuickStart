@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Api.Common;
 
 namespace Api.Modules.Product;
@@ -59,4 +60,43 @@ public class ProductProductModelDto
     public ProductModelType Type { get; set; }
     public string Value { get; set; }
     public int Price { get; set; }
+}
+
+public class ProductAdminInputDto
+{
+    [Required]
+    [Range(minimum: ModelStatics.MinimumIdRange, maximum: ModelStatics.MaximumIdRange)]
+    public int ProductCategoryId { get; set; }
+
+    [Required]
+    [Range(minimum: ModelStatics.MinimumIdRange, maximum: ModelStatics.MaximumIdRange)]
+    public int ProductBrandId { get; set; }
+
+    [Required]
+    [Range(minimum: ModelStatics.MinimumIdRange, maximum: ModelStatics.MaximumIdRange)]
+    public int ProductSellerId { get; set; }
+
+    public int? ViewOrder { get; set; }
+
+    [Required]
+    [StringLength(maximumLength: ModelStatics.TitleRequiredLength, MinimumLength = ModelStatics.TitleMinimumLength)]
+    public string Title { get; set; }
+
+    [Required]
+    public IFormFile Image { get; set; }
+
+    [Required]
+    public IFormFile Thumbnail { get; set; }
+
+    public bool Visible { get; set; } = true;
+    public bool Saleable { get; set; } = true;
+
+    [Required]
+    [StringLength(maximumLength: ModelStatics.DescriptionRequiredLength, MinimumLength = ModelStatics.DescriptionMinimumLength)]
+    public string ShortDescription { get; set; }
+
+    [Required]
+    [MinLength(ModelStatics.DescriptionMinimumLength)]
+    public string Description { get; set; }
+
 }
