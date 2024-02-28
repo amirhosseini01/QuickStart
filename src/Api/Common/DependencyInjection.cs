@@ -12,4 +12,11 @@ public static class DependencyInjection
 
         return services;
     }
+
+    public static IServiceCollection AddCustomServices(this IServiceCollection services)
+    {
+        services.AddScoped<FileUploader>();
+
+        return services;
+    }
 }

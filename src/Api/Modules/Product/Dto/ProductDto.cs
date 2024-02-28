@@ -100,3 +100,9 @@ public class ProductAdminInputDto
     public string Description { get; set; }
 
 }
+
+public class ProductAdminInputEditDto : ProductAdminInputDto
+{
+    public new IFormFile? Image { get; set; }
+    public new IFormFile? Thumbnail { get; set; }
+}

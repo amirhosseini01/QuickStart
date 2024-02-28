@@ -29,7 +29,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger().UseSwaggerUI();
 }
 
+app.UseStaticFiles();
+
 app.UseRateLimiter();
+
 
 app.MapControllers();
 
