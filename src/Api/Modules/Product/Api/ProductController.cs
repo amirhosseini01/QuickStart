@@ -17,7 +17,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(PaginatedList<ProductListDto>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(PaginatedList<ProductListDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> Get([FromQuery] ProductListFilterDto filter, CancellationToken cancellationToken)
     {
@@ -25,13 +25,13 @@ public class ProductController : ControllerBase
         return TypedResults.Ok(products);
     }
 
-    [HttpGet("{id}")]
-    [ProducesResponseType(typeof(ProductDetailDto), StatusCodes.Status201Created)]
+    [HttpGet("{Id}")]
+    [ProducesResponseType(typeof(ProductDetailDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get([FromRoute] IdDto id, CancellationToken cancellationToken)
+    public async Task<IResult> Get(IdDto routeVal, CancellationToken cancellationToken)
     {
-        var product = await _productRepository.GetProduct(id: id.Id, cancellationToken: cancellationToken);
+        var product = await _productRepository.GetProduct(id: routeVal.Id, cancellationToken: cancellationToken);
         if (product is null)
         {
             return TypedResults.NotFound();
@@ -60,14 +60,14 @@ public class ProductController : ControllerBase
         return TypedResults.Ok();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{Id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Put([FromRoute] IdDto id, ProductAdminInputEditDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Put(IdDto routeVal, ProductAdminInputEditDto input, CancellationToken cancellationToken)
     {
-        var product = await _productRepository.FirstOrDefaultAsync(id: id.Id, cancellationToken: cancellationToken);
+        var product = await _productRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
         if (product is null)
         {
             return TypedResults.NotFound();
@@ -92,14 +92,14 @@ public class ProductController : ControllerBase
         return TypedResults.Ok();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{Id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Delete([FromRoute] IdDto id, CancellationToken cancellationToken)
+    public async Task<IResult> Delete(IdDto routeVal, CancellationToken cancellationToken)
     {
-        var product = await _productRepository.FirstOrDefaultAsync(id: id.Id, cancellationToken: cancellationToken);
+        var product = await _productRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
         if (product is null)
         {
             return TypedResults.NotFound();
