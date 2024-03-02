@@ -7,6 +7,7 @@ public static class ModelStatics
     public const int ImageRequiredLength = 500;
     public const int UrlRequiredLength = 500;
     public const int UserRequiredLength = 450;
+    public const int UserMinimumLength = 50;
     public const int DescriptionRequiredLength = 500;
     public const int DescriptionMinimumLength = 5;
     public const int PhoneNumberRequiredLength = 10;
