@@ -20,13 +20,13 @@ public class ProductCategoryController : ControllerBase
         return TypedResults.Ok(ProductCategories);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{Id}")]
     [ProducesResponseType(typeof(ProductCategoryDetailDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get([FromRoute] IdDto id, CancellationToken cancellationToken)
+    public async Task<IResult> Get(IdDto routeVal, CancellationToken cancellationToken)
     {
-        var ProductCategory = await _ProductCategoryRepository.GetProductCategory(id: id.Id, cancellationToken: cancellationToken);
+        var ProductCategory = await _ProductCategoryRepository.GetProductCategory(id: routeVal.Id, cancellationToken: cancellationToken);
         if (ProductCategory is null)
         {
             return TypedResults.NotFound();
@@ -49,14 +49,14 @@ public class ProductCategoryController : ControllerBase
         return TypedResults.Ok();
     }
 
-    [HttpPut("{id}")]
+    [HttpPut("{Id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Put([FromRoute] IdDto id, ProductCategoryAdminInputDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Put(IdDto routeVal, ProductCategoryAdminInputDto input, CancellationToken cancellationToken)
     {
-        var ProductCategory = await _ProductCategoryRepository.FirstOrDefaultAsync(id: id.Id, cancellationToken: cancellationToken);
+        var ProductCategory = await _ProductCategoryRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
         if (ProductCategory is null)
         {
             return TypedResults.NotFound();
@@ -69,14 +69,14 @@ public class ProductCategoryController : ControllerBase
         return TypedResults.Ok();
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{Id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Delete([FromRoute] IdDto id, CancellationToken cancellationToken)
+    public async Task<IResult> Delete(IdDto routeVal, CancellationToken cancellationToken)
     {
-        var ProductCategory = await _ProductCategoryRepository.FirstOrDefaultAsync(id: id.Id, cancellationToken: cancellationToken);
+        var ProductCategory = await _ProductCategoryRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
         if (ProductCategory is null)
         {
             return TypedResults.NotFound();

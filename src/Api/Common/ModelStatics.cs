@@ -12,5 +12,5 @@ public static class ModelStatics
     public const int PhoneNumberRequiredLength = 10;
     public const string Nvarchar50 = "nvarchar(50)";
     public const int MaximumIdRange = int.MaxValue;
-    public const int MinimumIdRange = int.MaxValue;
+    public const int MinimumIdRange = 1;
 }
