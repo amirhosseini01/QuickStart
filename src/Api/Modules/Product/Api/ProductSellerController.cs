@@ -9,9 +9,14 @@ namespace Api.Modules.Product;
 public class ProductSellerController : ControllerBase
 {
     private readonly IProductSellerRepository _ProductSellerRepository;
-    public ProductSellerController(IProductSellerRepository ProductSellerRepository) => _ProductSellerRepository = ProductSellerRepository;
+    private readonly FileUploader _fileUploader;
+	public ProductSellerController(IProductSellerRepository ProductSellerRepository, FileUploader fileUploader)
+	{
+		_ProductSellerRepository = ProductSellerRepository;
+		_fileUploader = fileUploader;
+	}
 
-    [HttpGet]
+	[HttpGet]
     [ProducesResponseType(typeof(PaginatedList<ProductSellerListDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> Get([FromQuery] ProductSellerListFilterDto filter, CancellationToken cancellationToken)
@@ -43,6 +48,12 @@ public class ProductSellerController : ControllerBase
     {
         var ProductSeller = new ProductSellerMapper().AdminInputToProductSeller(input);
 
+        if (input.Logo is not null)
+        {
+            var uploadRes = await _fileUploader.UploadFile(input.Logo);
+            ProductSeller.Logo = uploadRes;
+        }
+
         await _ProductSellerRepository.AddAsync(ProductSeller, cancellationToken);
         await _ProductSellerRepository.SaveChangesAsync(cancellationToken);
 
@@ -63,6 +74,12 @@ public class ProductSellerController : ControllerBase
         }
 
         new ProductSellerMapper().AdminInputToProductSeller(ProductSeller, input);
+
+        if (input.Logo is not null)
+        {
+            var uploadRes = await _fileUploader.UploadFile(input.Logo);
+            ProductSeller.Logo = uploadRes;
+        }
 
         await _ProductSellerRepository.SaveChangesAsync(cancellationToken);
 

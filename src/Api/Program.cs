@@ -5,6 +5,7 @@
 //todo: try to build some adapter patter for easy switch in razor page
 //todo: unit test
 //todo: check content of uploaded file and search for other possible validation
+//todo: refactor uploader (maybe factory pattern) for solid purposes
 using Api.Common;
 using Api.Modules.Users;
 

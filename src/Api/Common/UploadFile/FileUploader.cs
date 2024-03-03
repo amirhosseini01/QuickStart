@@ -8,6 +8,7 @@ public class FileUploader
     private readonly UploadFileOptions _options;
     public FileUploader(IConfiguration configuration)
     {
+        _options = new();
         configuration.GetSection(UploadFileOptions.UploadFile).Bind(_options);
         ArgumentNullException.ThrowIfNull(_options);
     }
@@ -40,16 +41,19 @@ public class FileUploader
         {
             throw new FileUploaderException(FileUploaderMessages.EnterStoredFilesPath);
         }
-        
-        ValidateFileExtension(file, _permittedExtensions);
-        var filePath = Path.Combine(_options.StoredFilesPath, Path.GetRandomFileName());
 
-        using (var stream = File.Create(filePath))
+        ValidateFileExtension(file, _permittedExtensions);
+        var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+        var storedFilesPath = $"wwwroot/{_options.StoredFilesPath}";
+        var absolutePath = Path.Combine(storedFilesPath, fileName);
+        var relativePath = $"/{_options.StoredFilesPath}{fileName}";
+
+        using (var stream = File.Create(absolutePath))
         {
             await file.CopyToAsync(stream);
         }
 
-        return filePath;
+        return relativePath;
     }
 
     private static void ValidateFileExtension(IFormFile file, string[] permittedExtensions)
