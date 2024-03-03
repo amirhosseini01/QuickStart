@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Api.Common;
 
 namespace Api.Modules.Users;
 
@@ -19,5 +20,10 @@ public class UserInfo
 public class UserListDto
 {
     public string Id { get; set; }
-    public string UserId { get; set; }
+    public string UserName { get; set; }
+}
+
+public class UserListFilterDto: PaginatedListFilter
+{
+    
 }
