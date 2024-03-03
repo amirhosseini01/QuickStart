@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Api.Modules.Users;
 
 namespace Api;
 

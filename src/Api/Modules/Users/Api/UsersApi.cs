@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 
-namespace Api;
+namespace Api.Modules.Users;
 
 public static class UsersApi
 {

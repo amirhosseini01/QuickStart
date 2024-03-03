@@ -1,4 +1,6 @@
-﻿namespace Api.Tests;
+﻿using Api.Modules.Users;
+
+namespace Api.Tests;
 
 public class UserApiTests
 {

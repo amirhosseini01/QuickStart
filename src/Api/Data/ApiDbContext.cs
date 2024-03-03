@@ -1,5 +1,5 @@
 ﻿using Api.Modules.Product;
-using Api.Modules.Product.Cms;
+using Api.Modules.Users;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

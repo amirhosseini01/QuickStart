@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Api.Common;
+using Api.Modules.Users;
 
 namespace Api.Modules.Product;
 

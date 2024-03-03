@@ -1,4 +1,6 @@
-﻿namespace Api.Tests;
+﻿using Api.Modules.Users;
+
+namespace Api.Tests;
 
 internal sealed class ApiApplication : WebApplicationFactory<Program>
 {

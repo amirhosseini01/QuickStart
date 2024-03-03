@@ -1,4 +1,12 @@
+//todo: remove uploaded files in delete/update action in seller and product con
+//todo: return id after create entity in controllers
+//todo: check admin access in creating product
+//todo: refactor code for easy copy paste
+//todo: try to build some adapter patter for easy switch in razor page
+//todo: unit test
+//todo: check content of uploaded file and search for other possible validation
 using Api.Common;
+using Api.Modules.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 

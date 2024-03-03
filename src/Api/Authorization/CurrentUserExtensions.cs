@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Api.Modules.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 
