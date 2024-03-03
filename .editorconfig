@@ -351,6 +351,9 @@ dotnet_naming_rule.local_functions_should_be_pascal_case.symbols = all_members
 dotnet_naming_style.local_function_style.capitalization = pascal_case
 dotnet_naming_symbols.local_functions.applicable_kinds = local_function
 
+# Poss ible null reference assignment.
+dotnet_diagnostic.CS8601.severity = suggestion
+
 # "this." and "Me." qualifiers
 dotnet_style_qualification_for_event = true:warning
 dotnet_style_qualification_for_field = true:warning
@@ -439,7 +442,7 @@ dotnet_diagnostic.CA1502.severity = warning
 dotnet_diagnostic.CA1505.severity = warning
 
 # Avoid excessive class coupling
-dotnet_diagnostic.CA1506.severity = warning
+dotnet_diagnostic.CA1506.severity = suggestion
 
 # Use nameof in place of string
 dotnet_diagnostic.CA1507.severity = suggestion
@@ -582,7 +585,7 @@ dotnet_diagnostic.CA1714.severity = error
 dotnet_diagnostic.CA1715.severity = error
 
 # Identifiers should not match keywords
-dotnet_diagnostic.CA1716.severity = warning
+dotnet_diagnostic.CA1716.severity = suggestion
 
 # Only FlagsAttribute enums should have plural names
 dotnet_diagnostic.CA1717.severity = error
@@ -2102,6 +2105,9 @@ dotnet_diagnostic.ASYNC0004.severity = error
 
 # Do not use blocking call (make method async)
 dotnet_diagnostic.MA0045.severity = none
+
+# Field 'field' is never assigned to, and will always have its default value 'value'
+dotnet_diagnostic.CS0649.severity = suggestion
 
 # Call 'ConfigureAwait(false)'.
 dotnet_diagnostic.RCS1090.severity = error

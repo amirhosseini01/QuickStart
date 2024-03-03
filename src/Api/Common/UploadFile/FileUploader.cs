@@ -6,7 +6,11 @@ public class FileUploader
 {
     private readonly string[] _permittedExtensions = { ".TXT", ".PNG", ".JPG", ".WEBP" };
     private readonly UploadFileOptions _options;
-    public FileUploader(IConfiguration configuration) => configuration.GetSection(UploadFileOptions.UploadFile).Bind(_options);
+    public FileUploader(IConfiguration configuration)
+    {
+        configuration.GetSection(UploadFileOptions.UploadFile).Bind(_options);
+        ArgumentNullException.ThrowIfNull(_options);
+    }
 
     public async Task UploadFile(IList<IFormFile> files)
     {
