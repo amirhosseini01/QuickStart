@@ -20,10 +20,10 @@ public class ProductSeller : BaseEntity
     public string PhoneNumber { get; set; }
 
     [StringLength(ModelStatics.ImageRequiredLength)]
-    public string Logo { get; set; }
+    public string? Logo { get; set; }
 
     [StringLength(ModelStatics.DescriptionRequiredLength)]
-    public string PostalAddress { get; set; }
+    public string? PostalAddress { get; set; }
     
     [DeleteBehavior(DeleteBehavior.Restrict)]
     public AppUser User { get; set; }

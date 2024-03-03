@@ -34,10 +34,12 @@ public class PaginatedList<T> : List<T>
 public class PaginatedListFilter
 {
     [DefaultValue(1)]
+    [Required]
     [Range(minimum: 1, maximum: int.MaxValue)]
     public int PageIndex {get; set;}
     
     [DefaultValue(10)]
+    [Required]
     [Range(minimum: 10, maximum: 100)]
     public int TakeSize {get; set;}
 }

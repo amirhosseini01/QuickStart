@@ -45,6 +45,6 @@ public class ProductSellerAdminInputDto
 
     public IFormFile? Logo { get; set; }
 
-    [StringLength(maximumLength: ModelStatics.DescriptionRequiredLength, MinimumLength = ModelStatics.DescriptionMinimumLength)]
-    public string PostalAddress { get; set; }
+    [StringLength(maximumLength: ModelStatics.TitleRequiredLength, MinimumLength = ModelStatics.TitleMinimumLength)]
+    public string? PostalAddress { get; set; }
 }

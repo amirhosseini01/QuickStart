@@ -40,7 +40,7 @@ public class ProductProductSellerDto
 {
     public int Id { get; set; }
     public string Title { get; set; }
-    public string Logo { get; set; }
+    public string? Logo { get; set; }
 }
 public class ProductProductCategoryDto
 {
@@ -76,6 +76,7 @@ public class ProductAdminInputDto
     [Range(minimum: ModelStatics.MinimumIdRange, maximum: ModelStatics.MaximumIdRange)]
     public int ProductSellerId { get; set; }
 
+    [Range(minimum: ModelStatics.MinimumIdRange, maximum: ModelStatics.MaximumIdRange)]
     public int? ViewOrder { get; set; }
 
     [Required]
