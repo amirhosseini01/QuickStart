@@ -1,22 +1,13 @@
 using System.ComponentModel.DataAnnotations;
-using Api.Common;
 
 namespace Api;
 
-public class BaseEntity
+public class BaseEntity<T>
 {
     [Key]
-    public int Id { get; set; }
+    public T Id { get; set; }
 }
 
-public class BaseEntityCreate
+public class BaseEntity: BaseEntity<int>
 {
-    [Key]
-    public int Id { get; set; }
-    
-    [Required]
-    [StringLength(ModelStatics.UserRequiredLength)]
-    public string CreateUserId { get; set; }
-    public DateTime CreateDate { get; set; }
-    
 }

@@ -5,7 +5,7 @@ using Api.Modules.Users;
 
 namespace Api.Modules.Product;
 
-public class ProductStock : BaseEntityCreate
+public class ProductStock : BaseEntity
 {
     [Required]
     [StringLength(ModelStatics.UserRequiredLength)]
