@@ -1,16 +1,21 @@
 using Api.Common.Configurations;
+using FileSignatures;
+using FileSignatures.Formats;
 
 namespace Api.Common;
 
 public class FileUploader
 {
-    private readonly string[] _permittedExtensions = { ".TXT", ".PNG", ".JPG", ".WEBP" };
+    private readonly string[] _permittedExtensions = { ".PNG", ".JPG", ".JPEG", ".WEBP" };
     private readonly UploadFileOptions _options;
-    public FileUploader(IConfiguration configuration)
+    private readonly IFileFormatInspector _inspector;
+    public FileUploader(IConfiguration configuration,
+     IFileFormatInspector inspector)
     {
         _options = new();
         configuration.GetSection(UploadFileOptions.UploadFile).Bind(_options);
         ArgumentNullException.ThrowIfNull(_options);
+        this._inspector = inspector;
     }
 
     public async Task UploadFile(IList<IFormFile> files)
@@ -42,14 +47,22 @@ public class FileUploader
             throw new FileUploaderException(FileUploaderMessages.EnterStoredFilesPath);
         }
 
+        if (file.Length > _options.FileSizeLimit)
+        {
+            throw new FileUploaderException(FileUploaderMessages.EnterStoredFilesPath);
+        }
+
         ValidateFileExtension(file, _permittedExtensions);
-        var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
+
+        var fileExtension = Path.GetExtension(file.FileName);
+        var fileName = $"{Guid.NewGuid()}{fileExtension}";
         var storedFilesPath = _options.StoredImagesPath;
         var absolutePath = Path.Combine(storedFilesPath, fileName);
         var relativePath = $"/{_options.StoredImagesFolder}/{fileName}";
 
         using (var stream = File.Create(absolutePath))
         {
+            this.ValidateSignature(stream);
             await file.CopyToAsync(stream);
         }
 
@@ -64,5 +77,40 @@ public class FileUploader
         {
             throw new FileUploaderException(FileUploaderMessages.FileExtensionNotAllowed);
         }
+    }
+
+    private void ValidateSignature(FileStream stream)
+    {
+        var format = _inspector.DetermineFileFormat(stream);
+
+        if (format is Pdf)
+        {
+            return;
+        }
+
+        if (format is Png)
+        {
+            return;
+        }
+
+        if (format is Image)
+        {
+            return;
+        }
+
+        if (format is Webp)
+        {
+            return;
+        }
+
+        if (format is Jpeg)
+        {
+            return;
+        }
+
+        System.Console.WriteLine(format.Extension);
+        System.Console.WriteLine(format.MediaType);
+        System.Console.WriteLine(format.Signature);
+        throw new FileUploaderException(FileUploaderMessages.FileNotAllowed);
     }
 }

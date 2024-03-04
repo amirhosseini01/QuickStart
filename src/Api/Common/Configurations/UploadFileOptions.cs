@@ -6,4 +6,5 @@ public class UploadFileOptions
 
     public string StoredImagesFolder { get; set; } = string.Empty;
     public string StoredImagesPath { get; set; } = string.Empty;
+    public long FileSizeLimit { get; set; }
 }

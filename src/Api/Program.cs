@@ -1,10 +1,8 @@
 //todo: remove uploaded files in delete/update action in seller and product con
 //todo: return id after create entity in controllers
 //todo: check admin access in creating product
-//todo: refactor code for easy copy paste
 //todo: try to build some adapter patter for easy switch in razor page
 //todo: unit test
-//todo: check content of uploaded file and search for other possible validation
 //todo: refactor uploader (maybe factory pattern) for solid purposes
 //todo: separate select and mapper from repository and data layer! i think repo should return T
 using Api.Common;
