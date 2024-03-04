@@ -37,16 +37,16 @@ public class FileUploader
             throw new FileUploaderException(FileUploaderMessages.SelectFile);
         }
 
-        if (_options.StoredFilesPath is null)
+        if (_options.StoredImagesFolder is null || _options.StoredImagesPath is null)
         {
             throw new FileUploaderException(FileUploaderMessages.EnterStoredFilesPath);
         }
 
         ValidateFileExtension(file, _permittedExtensions);
         var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
-        var storedFilesPath = $"wwwroot/{_options.StoredFilesPath}";
+        var storedFilesPath = _options.StoredImagesPath;
         var absolutePath = Path.Combine(storedFilesPath, fileName);
-        var relativePath = $"/{_options.StoredFilesPath}{fileName}";
+        var relativePath = $"/{_options.StoredImagesFolder}/{fileName}";
 
         using (var stream = File.Create(absolutePath))
         {

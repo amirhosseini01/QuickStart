@@ -4,5 +4,6 @@ public class UploadFileOptions
 {
     public const string UploadFile = "UploadFile";
 
-    public string StoredFilesPath { get; set; } = string.Empty;
+    public string StoredImagesFolder { get; set; } = string.Empty;
+    public string StoredImagesPath { get; set; } = string.Empty;
 }
