@@ -62,7 +62,7 @@ public class ProductCategoryController : ControllerBase
             return TypedResults.NotFound();
         }
 
-        new ProductCategoryMapper().AdminInputToProductCategory(ProductCategory, input);
+        new ProductCategoryMapper().AdminInputToProductCategory(input, ProductCategory);
 
         await _ProductCategoryRepository.SaveChangesAsync(cancellationToken);
 

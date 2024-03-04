@@ -15,5 +15,5 @@ public partial class ProductSellerMapper
     public partial ProductSeller AdminInputToProductSeller(ProductSellerAdminInputDto input);
 
     [MapperIgnoreSource(nameof(ProductSeller.Logo))]
-    public partial void AdminInputToProductSeller(ProductSeller ProductSeller, ProductSellerAdminInputDto input);
+    public partial void AdminInputToProductSeller(ProductSellerAdminInputDto input, ProductSeller ProductSeller);
 }

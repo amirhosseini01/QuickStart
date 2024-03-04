@@ -73,7 +73,7 @@ public class ProductSellerController : ControllerBase
             return TypedResults.NotFound();
         }
 
-        new ProductSellerMapper().AdminInputToProductSeller(ProductSeller, input);
+        new ProductSellerMapper().AdminInputToProductSeller(input, ProductSeller);
 
         if (input.Logo is not null)
         {

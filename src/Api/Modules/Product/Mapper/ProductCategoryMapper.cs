@@ -13,5 +13,5 @@ public static partial class ProductCategoryMapperQuery
 public partial class ProductCategoryMapper
 {
     public partial ProductCategory AdminInputToProductCategory(ProductCategoryAdminInputDto input);
-    public partial void AdminInputToProductCategory(ProductCategory productCategory, ProductCategoryAdminInputDto input);
+    public partial void AdminInputToProductCategory(ProductCategoryAdminInputDto input, ProductCategory productCategory);
 }

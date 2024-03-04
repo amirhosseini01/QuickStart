@@ -62,7 +62,7 @@ public class ProductBrandController : ControllerBase
             return TypedResults.NotFound();
         }
 
-        new ProductBrandMapper().AdminInputToProductBrand(ProductBrand, input);
+        new ProductBrandMapper().AdminInputToProductBrand(input, ProductBrand);
 
         await _ProductBrandRepository.SaveChangesAsync(cancellationToken);
 

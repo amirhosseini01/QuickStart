@@ -13,5 +13,5 @@ public static partial class ProductBrandMapperQuery
 public partial class ProductBrandMapper
 {
     public partial ProductBrand AdminInputToProductBrand(ProductBrandAdminInputDto input);
-    public partial void AdminInputToProductBrand(ProductBrand ProductBrand, ProductBrandAdminInputDto input);
+    public partial void AdminInputToProductBrand(ProductBrandAdminInputDto input, ProductBrand ProductBrand);
 }
