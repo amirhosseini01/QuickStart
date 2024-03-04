@@ -11,6 +11,7 @@ public static class ProductManualMapper
             Thumbnail = x.Thumbnail,
             Title = x.Title,
             Saleable = x.Saleable,
+            Visible = x.Visible,
             Price = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault()
         });
 
@@ -22,6 +23,7 @@ public static class ProductManualMapper
         Title = x.Title,
         Image = x.Image,
         Saleable = x.Saleable,
+        Visible = x.Visible,
         ShortDescription = x.ShortDescription,
         Description = x.Description,
         ProductSeller = new()
@@ -60,5 +62,5 @@ public partial class ProductMapper
     
     [MapperIgnoreSource(nameof(Product.Image))]
     [MapperIgnoreSource(nameof(Product.Thumbnail))]
-    public partial void AdminInputToProduct(Product product, ProductAdminInputDto input);
+    public partial void AdminInputToProduct(ProductAdminInputDto input, Product product);
 }

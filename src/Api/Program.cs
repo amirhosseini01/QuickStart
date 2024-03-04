@@ -6,6 +6,7 @@
 //todo: unit test
 //todo: check content of uploaded file and search for other possible validation
 //todo: refactor uploader (maybe factory pattern) for solid purposes
+//todo: separate select and mapper from repository and data layer! i think repo should return T
 using Api.Common;
 using Api.Modules.Users;
 

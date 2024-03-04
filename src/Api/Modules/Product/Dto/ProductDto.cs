@@ -14,12 +14,14 @@ public class ProductListDto
     public string Title { get; set; }
     public string Thumbnail { get; set; }
     public bool Saleable { get; set; }
+    public bool Visible { get; set; }
     public int Price { get; set; }
 }
 
 public class ProductListFilterDto : PaginatedListFilter
 {
-
+    public bool? Visible { get; set; }
+    public bool? Saleable { get; set; }
 }
 
 public class ProductDetailDto
@@ -28,6 +30,7 @@ public class ProductDetailDto
     public string Title { get; set; }
     public string Image { get; set; }
     public bool Saleable { get; set; }
+    public bool Visible { get; set; }
     public string ShortDescription { get; set; }
     public string Description { get; set; }
     public ProductProductSellerDto ProductSeller { get; set; }

@@ -84,9 +84,8 @@ public class ProductController : ControllerBase
             var thumbnailUploadRes = await _fileUploader.UploadFile(input.Thumbnail);
             product.Thumbnail = thumbnailUploadRes;
         }
-
-        new ProductMapper().AdminInputToProduct(product, input);
-
+        
+        new ProductMapper().AdminInputToProduct(input, product);
         await _productRepository.SaveChangesAsync(cancellationToken);
 
         return TypedResults.Ok();
