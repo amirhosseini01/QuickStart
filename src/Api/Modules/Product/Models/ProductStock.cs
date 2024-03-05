@@ -7,7 +7,6 @@ namespace Api.Modules.Product;
 
 public class ProductStock : BaseEntity
 {
-    [Required]
     [StringLength(ModelStatics.UserRequiredLength)]
     public string UserId { get; set; }
     public int ProductId { get; set; }

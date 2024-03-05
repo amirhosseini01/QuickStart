@@ -7,15 +7,12 @@ namespace Api.Modules.Product;
 
 public class ProductSeller : BaseEntity
 {
-    [Required]
     [StringLength(ModelStatics.UserRequiredLength)]
     public string UserId { get; set; }
 
-    [Required]
     [StringLength(ModelStatics.TitleRequiredLength)]
     public string Title { get; set; }
 
-    [Required]
     [StringLength(ModelStatics.PhoneNumberRequiredLength)]
     public string PhoneNumber { get; set; }
 

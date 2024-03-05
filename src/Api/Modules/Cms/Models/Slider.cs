@@ -1,22 +1,26 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Api.Common;
 
-namespace Api.Modules.Product.Cms;
+namespace Api.Modules.Cms;
 public class Slider: BaseEntity
 {
-    [Required]
+    public int? ViewOrder { get; set; }
+ 
     [StringLength(ModelStatics.TitleRequiredLength)]
     public string Title { get; set; }
+
+    [Column(TypeName = ModelStatics.Nvarchar50)]
+    public SliderPlace SliderPlace { get; set; }
     
-    [Required]
+    public bool Visible { get; set; } = true;
+ 
     [StringLength(ModelStatics.ImageRequiredLength)]
     public string Image { get; set; }
     
-    [Required]
     [StringLength(ModelStatics.ImageRequiredLength)]
     public string Thumbnail { get; set; }
 
-    [Required]
     [StringLength(ModelStatics.UrlRequiredLength)]
-    public string Link { get; set; }
+    public string? Link { get; set; }
 }

@@ -11,14 +11,12 @@ public class ProductModel : BaseEntity
 
     public int? ViewOrder { get; set; }
 
-    [Required]
     [StringLength(ModelStatics.TitleRequiredLength)]
     public string Title { get; set; }
 
     [Column(TypeName = ModelStatics.Nvarchar50)]
     public ProductModelType Type { get; set; }
     
-    [Required]
     [StringLength(ModelStatics.TitleRequiredLength)]
     public string Value { get; set; }
     public int Price { get; set; }
