@@ -62,7 +62,7 @@ public class FileUploader
 
         using (var stream = File.Create(absolutePath))
         {
-            this.ValidateSignature(stream);
+            // this.ValidateSignature(stream);
             await file.CopyToAsync(stream);
         }
 
