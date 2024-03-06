@@ -486,3 +486,4 @@ $RECYCLE.BIN/
 # SQL Lite
 *.db
 
+src/api/wwwroot/images
