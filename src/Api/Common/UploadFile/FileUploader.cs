@@ -14,8 +14,7 @@ public class FileUploader
     {
         _options = new();
         configuration.GetSection(UploadFileOptions.UploadFile).Bind(_options);
-        ArgumentNullException.ThrowIfNull(_options);
-        this._inspector = inspector;
+        _inspector = inspector;
     }
 
     public async Task UploadFile(IList<IFormFile> files)
@@ -60,9 +59,13 @@ public class FileUploader
         var absolutePath = Path.Combine(storedFilesPath, fileName);
         var relativePath = $"/{_options.StoredImagesFolder}/{fileName}";
 
+        using(var stream = file.OpenReadStream())
+        {
+            this.ValidateSignature(stream);
+        }
+
         using (var stream = File.Create(absolutePath))
         {
-            // this.ValidateSignature(stream);
             await file.CopyToAsync(stream);
         }
 
@@ -79,7 +82,7 @@ public class FileUploader
         }
     }
 
-    private void ValidateSignature(FileStream stream)
+    private void ValidateSignature(Stream stream)
     {
         var format = _inspector.DetermineFileFormat(stream);
 
@@ -107,10 +110,6 @@ public class FileUploader
         {
             return;
         }
-
-        System.Console.WriteLine(format.Extension);
-        System.Console.WriteLine(format.MediaType);
-        System.Console.WriteLine(format.Signature);
         throw new FileUploaderException(FileUploaderMessages.FileNotAllowed);
     }
 }
