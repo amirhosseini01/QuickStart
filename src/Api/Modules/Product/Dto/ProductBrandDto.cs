@@ -13,6 +13,8 @@ public class ProductBrandListDto
     public int Id { get; set; }
     public string Title { get; set; }
     public bool Visible { get; set; }
+    public int? ViewOrder { get; set; }
+    public string? Logo { get; set; }
 }
 
 public class ProductBrandListFilterDto : PaginatedListFilter
@@ -25,6 +27,8 @@ public class ProductBrandDetailDto
     public int Id { get; set; }
     public string Title { get; set; }
     public bool Visible { get; set; }
+    public int? ViewOrder { get; set; }
+    public string? Logo { get; set; }
 
 }
 
@@ -35,4 +39,6 @@ public class ProductBrandAdminInputDto
     public string Title { get; set; }
 
     public bool Visible { get; set; } = true;
+    public int? ViewOrder { get; set; }
+    public IFormFile? Logo { get; set; }
 }

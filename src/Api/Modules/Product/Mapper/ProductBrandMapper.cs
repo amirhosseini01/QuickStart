@@ -12,6 +12,9 @@ public static partial class ProductBrandMapperQuery
 [Mapper]
 public partial class ProductBrandMapper
 {
+    [MapperIgnoreSource(nameof(ProductBrand.Logo))]
     public partial ProductBrand AdminInputToProductBrand(ProductBrandAdminInputDto input);
+
+    [MapperIgnoreSource(nameof(ProductBrand.Logo))]
     public partial void AdminInputToProductBrand(ProductBrandAdminInputDto input, ProductBrand ProductBrand);
 }

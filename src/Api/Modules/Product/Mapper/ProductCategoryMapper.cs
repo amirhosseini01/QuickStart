@@ -12,6 +12,9 @@ public static partial class ProductCategoryMapperQuery
 [Mapper]
 public partial class ProductCategoryMapper
 {
+    [MapperIgnoreSource(nameof(ProductCategory.Image))]
     public partial ProductCategory AdminInputToProductCategory(ProductCategoryAdminInputDto input);
+    
+    [MapperIgnoreSource(nameof(ProductCategory.Image))]
     public partial void AdminInputToProductCategory(ProductCategoryAdminInputDto input, ProductCategory productCategory);
 }

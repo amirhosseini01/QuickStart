@@ -9,9 +9,14 @@ namespace Api.Modules.Product;
 public class ProductCategoryController : ControllerBase
 {
     private readonly IProductCategoryRepository _ProductCategoryRepository;
-    public ProductCategoryController(IProductCategoryRepository ProductCategoryRepository) => _ProductCategoryRepository = ProductCategoryRepository;
+    private readonly FileUploader _fileUploader;
+	public ProductCategoryController(IProductCategoryRepository ProductCategoryRepository, FileUploader fileUploader)
+	{
+		_ProductCategoryRepository = ProductCategoryRepository;
+		_fileUploader = fileUploader;
+	}
 
-    [HttpGet]
+	[HttpGet]
     [ProducesResponseType(typeof(PaginatedList<ProductCategoryListDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> Get([FromQuery] ProductCategoryListFilterDto filter, CancellationToken cancellationToken)
@@ -43,6 +48,12 @@ public class ProductCategoryController : ControllerBase
     {
         var ProductCategory = new ProductCategoryMapper().AdminInputToProductCategory(input);
 
+        if (input.Image is not null)
+        {
+            var uploadRes = await _fileUploader.UploadFile(input.Image);
+            ProductCategory.Image = uploadRes;
+        }
+
         await _ProductCategoryRepository.AddAsync(ProductCategory, cancellationToken);
         await _ProductCategoryRepository.SaveChangesAsync(cancellationToken);
 
@@ -63,6 +74,12 @@ public class ProductCategoryController : ControllerBase
         }
 
         new ProductCategoryMapper().AdminInputToProductCategory(input, ProductCategory);
+
+        if (input.Image is not null)
+        {
+            var uploadRes = await _fileUploader.UploadFile(input.Image);
+            ProductCategory.Image = uploadRes;
+        }
 
         await _ProductCategoryRepository.SaveChangesAsync(cancellationToken);
 

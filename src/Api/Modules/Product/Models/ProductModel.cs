@@ -19,7 +19,8 @@ public class ProductModel : BaseEntity
     
     [StringLength(ModelStatics.TitleRequiredLength)]
     public string Value { get; set; }
-    public int Price { get; set; }
+    public decimal Price { get; set; }
+    public decimal Discount { get; set; }
 
     [DeleteBehavior(DeleteBehavior.Restrict)]
     public Product Product { get; set; }

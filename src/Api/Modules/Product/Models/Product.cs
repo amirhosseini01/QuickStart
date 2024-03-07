@@ -23,6 +23,7 @@ public class Product: BaseEntity
     
     public bool Visible { get; set; } = true;
     public bool Saleable { get; set; } = true;
+    public bool IsSpecialOffer { get; set; }
     
     [StringLength(ModelStatics.DescriptionRequiredLength)]
     public string ShortDescription { get; set; }

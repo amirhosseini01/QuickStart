@@ -9,9 +9,14 @@ namespace Api.Modules.Product;
 public class ProductBrandController : ControllerBase
 {
     private readonly IProductBrandRepository _ProductBrandRepository;
-    public ProductBrandController(IProductBrandRepository ProductBrandRepository) => _ProductBrandRepository = ProductBrandRepository;
+    private readonly FileUploader _fileUploader;
+	public ProductBrandController(IProductBrandRepository ProductBrandRepository, FileUploader fileUploader)
+	{
+		_ProductBrandRepository = ProductBrandRepository;
+		_fileUploader = fileUploader;
+	}
 
-    [HttpGet]
+	[HttpGet]
     [ProducesResponseType(typeof(PaginatedList<ProductBrandListDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> Get([FromQuery] ProductBrandListFilterDto filter, CancellationToken cancellationToken)
@@ -41,9 +46,15 @@ public class ProductBrandController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IResult> Post(ProductBrandAdminInputDto input, CancellationToken cancellationToken)
     {
-        var ProductBrand = new ProductBrandMapper().AdminInputToProductBrand(input);
+        var productBrand = new ProductBrandMapper().AdminInputToProductBrand(input);
 
-        await _ProductBrandRepository.AddAsync(ProductBrand, cancellationToken);
+        if (input.Logo is not null)
+        {
+            var uploadRes = await _fileUploader.UploadFile(input.Logo);
+            productBrand.Logo = uploadRes;
+        }
+
+        await _ProductBrandRepository.AddAsync(productBrand, cancellationToken);
         await _ProductBrandRepository.SaveChangesAsync(cancellationToken);
 
         return TypedResults.Ok();
@@ -56,13 +67,19 @@ public class ProductBrandController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IResult> Put(IdDto routeVal, ProductBrandAdminInputDto input, CancellationToken cancellationToken)
     {
-        var ProductBrand = await _ProductBrandRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
-        if (ProductBrand is null)
+        var productBrand = await _ProductBrandRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
+        if (productBrand is null)
         {
             return TypedResults.NotFound();
         }
 
-        new ProductBrandMapper().AdminInputToProductBrand(input, ProductBrand);
+        new ProductBrandMapper().AdminInputToProductBrand(input, productBrand);
+
+        if (input.Logo is not null)
+        {
+            var uploadRes = await _fileUploader.UploadFile(input.Logo);
+            productBrand.Logo = uploadRes;
+        }
 
         await _ProductBrandRepository.SaveChangesAsync(cancellationToken);
 

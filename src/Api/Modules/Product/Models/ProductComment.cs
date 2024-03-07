@@ -10,9 +10,11 @@ public class ProductComment: BaseEntity
     [StringLength(ModelStatics.UserRequiredLength)]
     public string UserId { get; set; }
     public int ProductId { get; set; }
+    public bool Approved { get; set; }
 
     [StringLength(ModelStatics.DescriptionRequiredLength)]
     public string Comment { get; set; }
+    public DateTime CreateDate { get; set; }
 
     [DeleteBehavior(DeleteBehavior.Restrict)]
     public Product Product { get; set; }

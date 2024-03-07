@@ -15,7 +15,8 @@ public class ProductListDto
     public string Thumbnail { get; set; }
     public bool Saleable { get; set; }
     public bool Visible { get; set; }
-    public int Price { get; set; }
+    public decimal Price { get; set; }
+    public bool IsSpecialOffer { get; set; }
 }
 
 public class ProductListFilterDto : PaginatedListFilter
@@ -31,6 +32,7 @@ public class ProductDetailDto
     public string Image { get; set; }
     public bool Saleable { get; set; }
     public bool Visible { get; set; }
+    public bool IsSpecialOffer { get; set; }
     public string ShortDescription { get; set; }
     public string Description { get; set; }
     public ProductProductSellerDto ProductSeller { get; set; }
@@ -62,7 +64,8 @@ public class ProductProductModelDto
     public string Title { get; set; }
     public ProductModelType Type { get; set; }
     public string Value { get; set; }
-    public int Price { get; set; }
+    public decimal Price { get; set; }
+    public decimal Discount { get; set; }
 }
 
 public class ProductAdminInputDto
@@ -94,6 +97,7 @@ public class ProductAdminInputDto
 
     public bool Visible { get; set; } = true;
     public bool Saleable { get; set; } = true;
+    public bool IsSpecialOffer { get; set; }
 
     [Required]
     [StringLength(maximumLength: ModelStatics.DescriptionRequiredLength, MinimumLength = ModelStatics.DescriptionMinimumLength)]
