@@ -15,8 +15,8 @@ builder.Services.AddAuthorizationBuilder().AddCurrentUserHandler();
 
 builder.Services.AddTokenService();
 
-var connectionString = builder.Configuration.GetConnectionString("Api") ?? "Data Source=.db/Api.db";
-builder.Services.AddSqlite<ApiDbContext>(connectionString);
+var connectionString = builder.Configuration.GetConnectionString("MainConnection");
+builder.Services.AddSqlServer<ApiDbContext>(connectionString);
 
 builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<ApiDbContext>();
 
