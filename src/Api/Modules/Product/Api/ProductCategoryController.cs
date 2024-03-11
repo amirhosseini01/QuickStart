@@ -8,56 +8,43 @@ namespace Api.Modules.Product;
 [ValidateModel]
 public class ProductCategoryController : ControllerBase
 {
-    private readonly IProductCategoryRepository _ProductCategoryRepository;
-    private readonly FileUploader _fileUploader;
-	public ProductCategoryController(IProductCategoryRepository ProductCategoryRepository, FileUploader fileUploader)
-	{
-		_ProductCategoryRepository = ProductCategoryRepository;
-		_fileUploader = fileUploader;
-	}
+    private readonly ProductCategoryServices _productCategoryServices;
+    public ProductCategoryController(ProductCategoryServices productCategoryServices) =>
+        _productCategoryServices = productCategoryServices;
 
-	[HttpGet]
+    [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<ProductCategoryListDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get([FromQuery] ProductCategoryListFilterDto filter, CancellationToken cancellationToken)
+    public async Task<IResult> GetList([FromQuery] ProductCategoryListFilterDto filter, CancellationToken cancellationToken = default)
     {
-        var ProductCategories = await _ProductCategoryRepository.GetProductCategoryList(filter: filter, cancellationToken: cancellationToken);
-        return TypedResults.Ok(ProductCategories);
+        var entities = await _productCategoryServices.GetList(filter, cancellationToken);
+        return TypedResults.Ok(entities);
     }
 
     [HttpGet("{Id}")]
     [ProducesResponseType(typeof(ProductCategoryDetailDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get(IdDto routeVal, CancellationToken cancellationToken)
+    public async Task<IResult> GetById(IdDto routeVal, CancellationToken cancellationToken = default)
     {
-        var ProductCategory = await _ProductCategoryRepository.GetProductCategory(id: routeVal.Id, cancellationToken: cancellationToken);
-        if (ProductCategory is null)
+        var entity = await _productCategoryServices.GetByIdDto(routeVal: routeVal, cancellationToken: cancellationToken);
+        if (entity is null)
         {
             return TypedResults.NotFound();
         }
 
-        return TypedResults.Ok(ProductCategory);
+        return TypedResults.Ok(entity);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Post(ProductCategoryAdminInputDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Post(ProductCategoryAdminInputDto input, CancellationToken cancellationToken = default)
     {
-        var ProductCategory = new ProductCategoryMapper().AdminInputToProductCategory(input);
+        var entity = await _productCategoryServices.Add(input, cancellationToken);
 
-        if (input.Image is not null)
-        {
-            var uploadRes = await _fileUploader.UploadFile(input.Image);
-            ProductCategory.Image = uploadRes;
-        }
-
-        await _ProductCategoryRepository.AddAsync(ProductCategory, cancellationToken);
-        await _ProductCategoryRepository.SaveChangesAsync(cancellationToken);
-
-        return TypedResults.Ok();
+        return TypedResults.Ok(entity);
     }
 
     [HttpPut("{Id}")]
@@ -65,23 +52,15 @@ public class ProductCategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Put(IdDto routeVal, ProductCategoryAdminInputDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Put(IdDto routeVal, ProductCategoryAdminInputDto input, CancellationToken cancellationToken = default)
     {
-        var ProductCategory = await _ProductCategoryRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
-        if (ProductCategory is null)
+        var entity = await _productCategoryServices.GetById(routeVal, cancellationToken);
+        if (entity is null)
         {
             return TypedResults.NotFound();
         }
 
-        new ProductCategoryMapper().AdminInputToProductCategory(input, ProductCategory);
-
-        if (input.Image is not null)
-        {
-            var uploadRes = await _fileUploader.UploadFile(input.Image);
-            ProductCategory.Image = uploadRes;
-        }
-
-        await _ProductCategoryRepository.SaveChangesAsync(cancellationToken);
+        await _productCategoryServices.Update(input, entity, cancellationToken);
 
         return TypedResults.Ok();
     }
@@ -91,16 +70,15 @@ public class ProductCategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Delete(IdDto routeVal, CancellationToken cancellationToken)
+    public async Task<IResult> Remove(IdDto routeVal, CancellationToken cancellationToken = default)
     {
-        var ProductCategory = await _ProductCategoryRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
-        if (ProductCategory is null)
+        var entity = await _productCategoryServices.GetById(routeVal, cancellationToken);
+        if (entity is null)
         {
             return TypedResults.NotFound();
         }
 
-        _ProductCategoryRepository.Remove(ProductCategory);
-        await _ProductCategoryRepository.SaveChangesAsync(cancellationToken);
+        await _productCategoryServices.Remove(entity, cancellationToken);
 
         return TypedResults.Ok();
     }

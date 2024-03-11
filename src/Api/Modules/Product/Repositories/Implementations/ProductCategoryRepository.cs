@@ -3,19 +3,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Modules.Product;
 
-public class ProductCategoryRepository: GenericRepository<ProductCategory>, IProductCategoryRepository
+public class ProductCategoryRepository : GenericRepository<ProductCategory>, IProductCategoryRepository
 {
     private readonly DbSet<ProductCategory> _entities;
-	public ProductCategoryRepository(ApiDbContext context) : base(context) => _entities = context.ProductCategories;
+    public ProductCategoryRepository(ApiDbContext context) : base(context) => _entities = context.ProductCategories;
 
-	public async Task<PaginatedList<ProductCategoryListDto>> GetProductCategoryList(ProductCategoryListFilterDto filter, CancellationToken cancellationToken = default) 
+    public IQueryable<ProductCategory> FilterQuery(ProductCategoryListFilterDto filter)
     {
         var query = _entities.AsNoTracking();
-        return await PaginatedList<ProductCategoryListDto>.CreateAsync(source: query.MapProductCategoryToListDto(), filter: filter, cancellationToken: cancellationToken);
+
+        if (filter.Visible is not null)
+        {
+            query = query.Where(x => x.Visible == filter.Visible.Value);
+        }
+
+        return query;
     }
-    public async Task<ProductCategoryDetailDto?> GetProductCategory(int id, CancellationToken cancellationToken = default) 
-    {
-        var query = _entities.AsNoTracking().Where(x=> x.Id == id);
-        return await query.MapProductCategoryToDetailDto().FirstOrDefaultAsync(cancellationToken);
-    }
+
+	public IQueryable<ProductCategory> FilterQuery(int id) => _entities.AsNoTracking().Where(x => x.Id == id);
 }

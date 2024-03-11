@@ -22,7 +22,6 @@ builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<ApiDbContex
 
 builder.Services.AddControllers();
 
-builder.Services.AddScrutor();
 builder.Services.AddCustomServices();
 
 builder.Services.AddCurrentUser();
