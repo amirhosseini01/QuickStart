@@ -19,4 +19,8 @@
     <InternalsVisibleTo Include="Api.Tests" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+
 </Project>
