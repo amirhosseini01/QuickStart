@@ -1,7 +1,7 @@
-using Api.Common;
+using Common.Commons;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Modules.Cms;
+namespace Common.Modules.Cms;
 
 [ApiController]
 [Route("[controller]")]
@@ -84,7 +84,7 @@ public class SliderController : ControllerBase
             var thumbnailUploadRes = await _fileUploader.UploadFile(input.Thumbnail);
             slider.Thumbnail = thumbnailUploadRes;
         }
-        
+
         new SliderMapper().AdminInputToSlider(input, slider);
         await _sliderRepository.SaveChangesAsync(cancellationToken);
 

@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
+using Common.Modules.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Web.Shared.User;
 
 namespace Web.Server;
 
@@ -37,16 +37,16 @@ public static class AuthApi
             return SignIn(userInfo, token);
         });
 
-        group.MapPost("logout", async (HttpContext context) => 
+        group.MapPost("logout", async (HttpContext context) =>
             await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme))
                 .RequireAuthorization();
 
         return group;
     }
 
-	private static IResult SignIn(UserInfo userInfo, string token) => SignIn(userInfo.Username, userInfo.Username, token);
+    private static IResult SignIn(UserInfo userInfo, string token) => SignIn(userInfo.Username, userInfo.Username, token);
 
-	private static IResult SignIn(string userId, string userName, string token)
+    private static IResult SignIn(string userId, string userName, string token)
     {
         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
         identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId));

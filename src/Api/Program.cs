@@ -5,8 +5,9 @@
 //todo: unit test
 //todo: refactor uploader (maybe factory pattern) for solid purposes
 //todo: separate select and mapper from repository and data layer! i think repo should return T
-using Api.Common;
-using Api.Modules.Users;
+using Common.Commons;
+using Common.Data;
+using Common.Modules.User;
 
 var builder = WebApplication.CreateBuilder(args);
 

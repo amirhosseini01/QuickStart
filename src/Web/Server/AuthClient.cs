@@ -1,4 +1,6 @@
-﻿using Web.Shared.User;
+﻿
+
+using Common.Modules.User;
 
 namespace Web.Server;
 
@@ -6,9 +8,9 @@ public class AuthClient
 {
     private readonly HttpClient _client;
 
-	public AuthClient(HttpClient client) => this._client = client;
+    public AuthClient(HttpClient client) => this._client = client;
 
-	public async Task<string?> GetTokenAsync(UserInfo userInfo)
+    public async Task<string?> GetTokenAsync(UserInfo userInfo)
     {
         var response = await _client.PostAsJsonAsync("users/token", userInfo);
 

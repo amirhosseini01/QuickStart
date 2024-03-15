@@ -1,4 +1,5 @@
-﻿using Api.Modules.Users;
+﻿using Common.Data;
+using Common.Modules.User;
 
 namespace Api.Tests;
 
@@ -54,10 +55,10 @@ internal sealed class ApiApplication : WebApplicationFactory<Program>
         var base64Key = Convert.ToBase64String(keyBytes);
 
         builder.ConfigureAppConfiguration(config => config.AddInMemoryCollection(new Dictionary<string, string?>
-		{
-			["Authentication:Schemes:Bearer:SigningKeys:0:Issuer"] = "dotnet-user-jwts",
-			["Authentication:Schemes:Bearer:SigningKeys:0:Value"] = base64Key
-		}));
+        {
+            ["Authentication:Schemes:Bearer:SigningKeys:0:Issuer"] = "dotnet-user-jwts",
+            ["Authentication:Schemes:Bearer:SigningKeys:0:Value"] = base64Key
+        }));
 
         return base.CreateHost(builder);
     }

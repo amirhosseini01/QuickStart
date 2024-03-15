@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Api.Modules.Users;
+using Common.Modules.User;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 

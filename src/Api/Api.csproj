@@ -1,16 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
-    <PackageReference Include="FileSignatures" />
-    <PackageReference Include="FluentResults" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="MiniValidation" />
-    <PackageReference Include="Riok.Mapperly" />
-    <PackageReference Include="Scrutor" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
