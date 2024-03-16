@@ -5,9 +5,9 @@ namespace Common.Modules.Product;
 
 public class ProductCategoryServices : IGenericService
 {
-    private readonly IProductCategoryRepository _productCategoryRepository;
+    private readonly IProductCategoryRepo _productCategoryRepository;
     private readonly FileUploader _fileUploader;
-    public ProductCategoryServices(IProductCategoryRepository productCategoryRepository, FileUploader fileUploader)
+    public ProductCategoryServices(IProductCategoryRepo productCategoryRepository, FileUploader fileUploader)
     {
         _productCategoryRepository = productCategoryRepository;
         _fileUploader = fileUploader;
