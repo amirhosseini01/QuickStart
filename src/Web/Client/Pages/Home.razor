@@ -1,6 +1,6 @@
 ﻿@using Client.Components.Products
 @using Client.Components.Cms
-@page "/Test2"
+@page "/"
 
 <Slider />
 
@@ -8,21 +8,20 @@
 
 <FreshDiscount />
 
-@* <Banner BannerPlace="@Common.Modules.Product.BannerPlace.FirstTwoItem" /> *@
+<Banner BannerPlace="@BannerPlace.FirstTwoItem" />
 
 <Categories />
 
 <FreshDiscount />
 
-@* <Banner BannerPlace="@Common.Modules.Product.BannerPlace.SecondTwoItem" />
-
-<Banner BannerPlace="@Common.Modules.Product.BannerPlace.ThirdTwoItem" /> *@
+<Banner BannerPlace="@BannerPlace.SecondTwoItem" />
+<Banner BannerPlace="@BannerPlace.ThirdTwoItem" />
 
 <Brands />
 
 <IndexProducts />
 
-@* <Banner BannerPlace="@Common.Modules.Product.BannerPlace.FirstSingleItem" /> *@
+<Banner BannerPlace="@BannerPlace.FirstSingleItem" />
 
 <IndexProducts />
 
