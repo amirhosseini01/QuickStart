@@ -19,9 +19,9 @@ public class SliderController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<SliderListDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get([FromQuery] SliderListFilterDto filter, CancellationToken cancellationToken)
+    public async Task<IResult> Get([FromQuery] SliderListFilterDto filter, CancellationToken ct)
     {
-        var sliders = await _sliderRepository.GetSliderLists(filter: filter, cancellationToken: cancellationToken);
+        var sliders = await _sliderRepository.GetSliderLists(filter: filter, ct: ct);
         return TypedResults.Ok(sliders);
     }
 
@@ -29,9 +29,9 @@ public class SliderController : ControllerBase
     [ProducesResponseType(typeof(SliderDetailDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get(IdDto routeVal, CancellationToken cancellationToken)
+    public async Task<IResult> Get(IdDto routeVal, CancellationToken ct)
     {
-        var slider = await _sliderRepository.GetSlider(id: routeVal.Id, cancellationToken: cancellationToken);
+        var slider = await _sliderRepository.GetSlider(id: routeVal.Id, ct: ct);
         if (slider is null)
         {
             return TypedResults.NotFound();
@@ -44,7 +44,7 @@ public class SliderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Post(SliderAdminInputDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Post(SliderAdminInputDto input, CancellationToken ct)
     {
         var slider = new SliderMapper().AdminInputToSlider(input);
 
@@ -54,8 +54,8 @@ public class SliderController : ControllerBase
         var thumbnailUploadRes = await _fileUploader.UploadFile(input.Thumbnail);
         slider.Thumbnail = thumbnailUploadRes;
 
-        await _sliderRepository.AddAsync(slider, cancellationToken);
-        await _sliderRepository.SaveChangesAsync(cancellationToken);
+        await _sliderRepository.AddAsync(slider, ct);
+        await _sliderRepository.SaveChangesAsync(ct);
 
         return TypedResults.Ok();
     }
@@ -65,9 +65,9 @@ public class SliderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Put(IdDto routeVal, SliderAdminInputEditDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Put(IdDto routeVal, SliderAdminInputEditDto input, CancellationToken ct)
     {
-        var slider = await _sliderRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
+        var slider = await _sliderRepository.FirstOrDefaultAsync(id: routeVal.Id, ct: ct);
         if (slider is null)
         {
             return TypedResults.NotFound();
@@ -86,7 +86,7 @@ public class SliderController : ControllerBase
         }
 
         new SliderMapper().AdminInputToSlider(input, slider);
-        await _sliderRepository.SaveChangesAsync(cancellationToken);
+        await _sliderRepository.SaveChangesAsync(ct);
 
         return TypedResults.Ok();
     }
@@ -96,16 +96,16 @@ public class SliderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Delete(IdDto routeVal, CancellationToken cancellationToken)
+    public async Task<IResult> Delete(IdDto routeVal, CancellationToken ct)
     {
-        var slider = await _sliderRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
+        var slider = await _sliderRepository.FirstOrDefaultAsync(id: routeVal.Id, ct: ct);
         if (slider is null)
         {
             return TypedResults.NotFound();
         }
 
         _sliderRepository.Remove(slider);
-        await _sliderRepository.SaveChangesAsync(cancellationToken);
+        await _sliderRepository.SaveChangesAsync(ct);
 
         return TypedResults.Ok();
     }

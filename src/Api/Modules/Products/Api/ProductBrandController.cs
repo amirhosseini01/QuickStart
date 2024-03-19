@@ -8,20 +8,17 @@ namespace Common.Modules.Product;
 [ValidateModel]
 public class ProductBrandController : ControllerBase
 {
-    private readonly IProductBrandRepository _ProductBrandRepository;
-    private readonly FileUploader _fileUploader;
-    public ProductBrandController(IProductBrandRepository ProductBrandRepository, FileUploader fileUploader)
-    {
-        _ProductBrandRepository = ProductBrandRepository;
-        _fileUploader = fileUploader;
-    }
+    private readonly ProductBrandService _productBrandService;
+
+    public ProductBrandController(ProductBrandService productBrandService) =>
+        _productBrandService = productBrandService;
 
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<ProductBrandListDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get([FromQuery] ProductBrandListFilterDto filter, CancellationToken cancellationToken)
+    public async Task<IResult> Get([FromQuery] ProductBrandListFilterDto filter, CancellationToken ct = default)
     {
-        var ProductCategories = await _ProductBrandRepository.GetProductBrandList(filter: filter, cancellationToken: cancellationToken);
+        var ProductCategories = await _productBrandService.GetAdminList(filter: filter, ct: ct);
         return TypedResults.Ok(ProductCategories);
     }
 
@@ -29,9 +26,9 @@ public class ProductBrandController : ControllerBase
     [ProducesResponseType(typeof(ProductBrandDetailDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get(IdDto routeVal, CancellationToken cancellationToken)
+    public async Task<IResult> Get(IdDto routeVal, CancellationToken ct = default)
     {
-        var ProductBrand = await _ProductBrandRepository.GetProductBrand(id: routeVal.Id, cancellationToken: cancellationToken);
+        var ProductBrand = await _productBrandService.GetByIdAdminDto(routeVal: routeVal, ct: ct);
         if (ProductBrand is null)
         {
             return TypedResults.NotFound();
@@ -44,18 +41,9 @@ public class ProductBrandController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Post(ProductBrandAdminInputDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Post(ProductBrandAdminInputDto input, CancellationToken ct = default)
     {
-        var productBrand = new ProductBrandMapper().AdminInputToProductBrand(input);
-
-        if (input.Logo is not null)
-        {
-            var uploadRes = await _fileUploader.UploadFile(input.Logo);
-            productBrand.Logo = uploadRes;
-        }
-
-        await _ProductBrandRepository.AddAsync(productBrand, cancellationToken);
-        await _ProductBrandRepository.SaveChangesAsync(cancellationToken);
+        await _productBrandService.Add(input: input, ct: ct);
 
         return TypedResults.Ok();
     }
@@ -65,23 +53,15 @@ public class ProductBrandController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Put(IdDto routeVal, ProductBrandAdminInputDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Put(IdDto routeVal, ProductBrandAdminInputDto input, CancellationToken ct = default)
     {
-        var productBrand = await _ProductBrandRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
+        var productBrand = await _productBrandService.GetByIdAdmin(routeVal: routeVal, ct: ct);
         if (productBrand is null)
         {
             return TypedResults.NotFound();
         }
 
-        new ProductBrandMapper().AdminInputToProductBrand(input, productBrand);
-
-        if (input.Logo is not null)
-        {
-            var uploadRes = await _fileUploader.UploadFile(input.Logo);
-            productBrand.Logo = uploadRes;
-        }
-
-        await _ProductBrandRepository.SaveChangesAsync(cancellationToken);
+        await _productBrandService.Update(productBrand: productBrand, input: input, ct: ct);
 
         return TypedResults.Ok();
     }
@@ -91,16 +71,15 @@ public class ProductBrandController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Delete(IdDto routeVal, CancellationToken cancellationToken)
+    public async Task<IResult> Delete(IdDto routeVal, CancellationToken ct = default)
     {
-        var ProductBrand = await _ProductBrandRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
-        if (ProductBrand is null)
+        var productBrand = await _productBrandService.GetByIdAdmin(routeVal: routeVal, ct: ct);
+        if (productBrand is null)
         {
             return TypedResults.NotFound();
         }
 
-        _ProductBrandRepository.Remove(ProductBrand);
-        await _ProductBrandRepository.SaveChangesAsync(cancellationToken);
+        await _productBrandService.Remove(productBrand: productBrand, ct: ct);
 
         return TypedResults.Ok();
     }

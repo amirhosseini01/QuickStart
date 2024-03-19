@@ -19,9 +19,9 @@ public class ProductSellerController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<ProductSellerListDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get([FromQuery] ProductSellerListFilterDto filter, CancellationToken cancellationToken)
+    public async Task<IResult> Get([FromQuery] ProductSellerListFilterDto filter, CancellationToken ct)
     {
-        var ProductCategories = await _ProductSellerRepository.GetProductSellerList(filter: filter, cancellationToken: cancellationToken);
+        var ProductCategories = await _ProductSellerRepository.GetProductSellerList(filter: filter, ct: ct);
         return TypedResults.Ok(ProductCategories);
     }
 
@@ -29,9 +29,9 @@ public class ProductSellerController : ControllerBase
     [ProducesResponseType(typeof(ProductSellerDetailDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get(IdDto routeVal, CancellationToken cancellationToken)
+    public async Task<IResult> Get(IdDto routeVal, CancellationToken ct)
     {
-        var ProductSeller = await _ProductSellerRepository.GetProductSeller(id: routeVal.Id, cancellationToken: cancellationToken);
+        var ProductSeller = await _ProductSellerRepository.GetProductSeller(id: routeVal.Id, ct: ct);
         if (ProductSeller is null)
         {
             return TypedResults.NotFound();
@@ -44,7 +44,7 @@ public class ProductSellerController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Post(ProductSellerAdminInputDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Post(ProductSellerAdminInputDto input, CancellationToken ct)
     {
         var ProductSeller = new ProductSellerMapper().AdminInputToProductSeller(input);
 
@@ -54,8 +54,8 @@ public class ProductSellerController : ControllerBase
             ProductSeller.Logo = uploadRes;
         }
 
-        await _ProductSellerRepository.AddAsync(ProductSeller, cancellationToken);
-        await _ProductSellerRepository.SaveChangesAsync(cancellationToken);
+        await _ProductSellerRepository.AddAsync(ProductSeller, ct);
+        await _ProductSellerRepository.SaveChangesAsync(ct);
 
         return TypedResults.Ok();
     }
@@ -65,9 +65,9 @@ public class ProductSellerController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Put(IdDto routeVal, ProductSellerAdminInputDto input, CancellationToken cancellationToken)
+    public async Task<IResult> Put(IdDto routeVal, ProductSellerAdminInputDto input, CancellationToken ct)
     {
-        var ProductSeller = await _ProductSellerRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
+        var ProductSeller = await _ProductSellerRepository.FirstOrDefaultAsync(id: routeVal.Id, ct: ct);
         if (ProductSeller is null)
         {
             return TypedResults.NotFound();
@@ -81,7 +81,7 @@ public class ProductSellerController : ControllerBase
             ProductSeller.Logo = uploadRes;
         }
 
-        await _ProductSellerRepository.SaveChangesAsync(cancellationToken);
+        await _ProductSellerRepository.SaveChangesAsync(ct);
 
         return TypedResults.Ok();
     }
@@ -91,16 +91,16 @@ public class ProductSellerController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Delete(IdDto routeVal, CancellationToken cancellationToken)
+    public async Task<IResult> Delete(IdDto routeVal, CancellationToken ct)
     {
-        var ProductSeller = await _ProductSellerRepository.FirstOrDefaultAsync(id: routeVal.Id, cancellationToken: cancellationToken);
+        var ProductSeller = await _ProductSellerRepository.FirstOrDefaultAsync(id: routeVal.Id, ct: ct);
         if (ProductSeller is null)
         {
             return TypedResults.NotFound();
         }
 
         _ProductSellerRepository.Remove(ProductSeller);
-        await _ProductSellerRepository.SaveChangesAsync(cancellationToken);
+        await _ProductSellerRepository.SaveChangesAsync(ct);
 
         return TypedResults.Ok();
     }

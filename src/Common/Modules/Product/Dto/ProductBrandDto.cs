@@ -20,7 +20,7 @@ public class ProductBrandListDto
 
 public class ProductBrandListFilterDto : PaginatedListFilter
 {
-
+    public bool? Visible { get; set; }
 }
 
 public class ProductBrandDetailDto

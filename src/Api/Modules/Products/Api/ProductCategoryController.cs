@@ -15,9 +15,9 @@ public class ProductCategoryController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<ProductCategoryListDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> GetList([FromQuery] ProductCategoryListFilterDto filter, CancellationToken cancellationToken = default)
+    public async Task<IResult> GetList([FromQuery] ProductCategoryListFilterDto filter, CancellationToken ct = default)
     {
-        var entities = await _productCategoryServices.GetAdminList(filter, cancellationToken);
+        var entities = await _productCategoryServices.GetAdminList(filter, ct);
         return TypedResults.Ok(entities);
     }
 
@@ -25,9 +25,9 @@ public class ProductCategoryController : ControllerBase
     [ProducesResponseType(typeof(ProductCategoryDetailDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> GetById(IdDto routeVal, CancellationToken cancellationToken = default)
+    public async Task<IResult> GetById(IdDto routeVal, CancellationToken ct = default)
     {
-        var entity = await _productCategoryServices.GetByIdDto(routeVal: routeVal, cancellationToken: cancellationToken);
+        var entity = await _productCategoryServices.GetByIdAdminDto(routeVal: routeVal, ct: ct);
         if (entity is null)
         {
             return TypedResults.NotFound();
@@ -40,9 +40,9 @@ public class ProductCategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Post(ProductCategoryAdminInputDto input, CancellationToken cancellationToken = default)
+    public async Task<IResult> Post(ProductCategoryAdminInputDto input, CancellationToken ct = default)
     {
-        var entity = await _productCategoryServices.Add(input, cancellationToken);
+        var entity = await _productCategoryServices.Add(input, ct);
 
         return TypedResults.Ok(entity);
     }
@@ -52,15 +52,15 @@ public class ProductCategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Put(IdDto routeVal, ProductCategoryAdminInputDto input, CancellationToken cancellationToken = default)
+    public async Task<IResult> Put(IdDto routeVal, ProductCategoryAdminInputDto input, CancellationToken ct = default)
     {
-        var entity = await _productCategoryServices.GetById(routeVal, cancellationToken);
+        var entity = await _productCategoryServices.GetByIdAdmin(routeVal, ct);
         if (entity is null)
         {
             return TypedResults.NotFound();
         }
 
-        await _productCategoryServices.Update(input, entity, cancellationToken);
+        await _productCategoryServices.Update(input, entity, ct);
 
         return TypedResults.Ok();
     }
@@ -70,15 +70,15 @@ public class ProductCategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Remove(IdDto routeVal, CancellationToken cancellationToken = default)
+    public async Task<IResult> Remove(IdDto routeVal, CancellationToken ct = default)
     {
-        var entity = await _productCategoryServices.GetById(routeVal, cancellationToken);
+        var entity = await _productCategoryServices.GetByIdAdmin(routeVal, ct);
         if (entity is null)
         {
             return TypedResults.NotFound();
         }
 
-        await _productCategoryServices.Remove(entity, cancellationToken);
+        await _productCategoryServices.Remove(entity, ct);
 
         return TypedResults.Ok();
     }

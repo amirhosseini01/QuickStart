@@ -17,11 +17,11 @@ public class ProductCategoryServices : IGenericService
         return await _productCategoryRepo.GetAdminList(filter: filter, ct: ct);
     }
 
-    public async Task<ProductCategoryDetailDto?> GetByIdDto(IdDto routeVal, CancellationToken ct = default)
+    public async Task<ProductCategoryDetailDto?> GetByIdAdminDto(IdDto routeVal, CancellationToken ct = default)
     {
         return await _productCategoryRepo.GetByIdAdminDto(routeVal: routeVal, ct: ct);
     }
-    public async Task<ProductCategory?> GetById(IdDto routeVal, CancellationToken ct) =>
+    public async Task<ProductCategory?> GetByIdAdmin(IdDto routeVal, CancellationToken ct) =>
         await _productCategoryRepo.FirstOrDefaultAsync(routeVal.Id, ct);
 
     public async Task<ProductCategory> Add(ProductCategoryAdminInputDto input, CancellationToken ct = default)

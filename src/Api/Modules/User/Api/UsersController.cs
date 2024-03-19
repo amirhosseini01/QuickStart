@@ -16,9 +16,9 @@ public class UsersController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<UserListDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get([FromQuery] UserListFilterDto filter, CancellationToken cancellationToken)
+    public async Task<IResult> Get([FromQuery] UserListFilterDto filter, CancellationToken ct)
     {
-        var Users = await _userRepository.GetUserLists(filter: filter, cancellationToken: cancellationToken);
+        var Users = await _userRepository.GetUserLists(filter: filter, ct: ct);
         return TypedResults.Ok(Users);
     }
 }
