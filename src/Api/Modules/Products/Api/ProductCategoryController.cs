@@ -17,7 +17,7 @@ public class ProductCategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> GetList([FromQuery] ProductCategoryListFilterDto filter, CancellationToken cancellationToken = default)
     {
-        var entities = await _productCategoryServices.GetList(filter, cancellationToken);
+        var entities = await _productCategoryServices.GetAdminList(filter, cancellationToken);
         return TypedResults.Ok(entities);
     }
 

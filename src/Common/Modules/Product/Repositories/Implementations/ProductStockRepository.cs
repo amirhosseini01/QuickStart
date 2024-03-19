@@ -9,14 +9,14 @@ public class ProductStockRepository : GenericRepository<ProductStock>, IProductS
     private readonly DbSet<ProductStock> _entities;
     public ProductStockRepository(ApiDbContext context) : base(context) => _entities = context.ProductStocks;
 
-    public async Task<PaginatedList<ProductStockListDto>> GetProductStockList(ProductStockListFilterDto filter, CancellationToken cancellationToken = default)
+    public async Task<PaginatedList<ProductStockListDto>> GetProductStockList(ProductStockListFilterDto filter, CancellationToken ct = default)
     {
         var query = _entities.AsNoTracking();
-        return await PaginatedList<ProductStockListDto>.CreateAsync(source: query.MapProductStockToListDto(), filter: filter, cancellationToken: cancellationToken);
+        return await PaginatedList<ProductStockListDto>.CreateAsync(source: query.MapProductStockToListDto(), filter: filter, ct: ct);
     }
-    public async Task<ProductStockDetailDto?> GetProductStock(int id, CancellationToken cancellationToken = default)
+    public async Task<ProductStockDetailDto?> GetProductStock(int id, CancellationToken ct = default)
     {
         var query = _entities.AsNoTracking().Where(x => x.Id == id);
-        return await query.MapProductStockToDetailDto().FirstOrDefaultAsync(cancellationToken);
+        return await query.MapProductStockToDetailDto().FirstOrDefaultAsync(ct);
     }
 }

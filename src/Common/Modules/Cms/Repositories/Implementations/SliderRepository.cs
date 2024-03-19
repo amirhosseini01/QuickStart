@@ -9,15 +9,15 @@ public class SliderRepository : GenericRepository<Slider>, ISliderRepository
     private readonly DbSet<Slider> _entities;
     public SliderRepository(ApiDbContext context) : base(context) => _entities = context.Sliders;
 
-    public async Task<PaginatedList<SliderListDto>> GetSliderLists(SliderListFilterDto filter, CancellationToken cancellationToken = default)
+    public async Task<PaginatedList<SliderListDto>> GetSliderLists(SliderListFilterDto filter, CancellationToken ct = default)
     {
         var query = _entities.AsNoTracking();
 
-        return await PaginatedList<SliderListDto>.CreateAsync(source: query.MapSliderToListDto(), filter: filter, cancellationToken: cancellationToken);
+        return await PaginatedList<SliderListDto>.CreateAsync(source: query.MapSliderToListDto(), filter: filter, ct: ct);
     }
-    public async Task<SliderDetailDto?> GetSlider(int id, CancellationToken cancellationToken = default)
+    public async Task<SliderDetailDto?> GetSlider(int id, CancellationToken ct = default)
     {
         var query = _entities.AsNoTracking().Where(x => x.Id == id);
-        return await query.MapSliderToDetailDto().FirstOrDefaultAsync(cancellationToken);
+        return await query.MapSliderToDetailDto().FirstOrDefaultAsync(ct);
     }
 }

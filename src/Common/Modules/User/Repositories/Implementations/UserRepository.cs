@@ -10,9 +10,9 @@ public class UserRepository : GenericRepository<AppUser>, IUserRepository
     public UserRepository(ApiDbContext context) : base(context) =>
         _entities = context.Users;
 
-    public async Task<PaginatedList<UserListDto>> GetUserLists(UserListFilterDto filter, CancellationToken cancellationToken = default)
+    public async Task<PaginatedList<UserListDto>> GetUserLists(UserListFilterDto filter, CancellationToken ct = default)
     {
         var query = _entities.AsNoTracking();
-        return await PaginatedList<UserListDto>.CreateAsync(source: query.MapUserToListDto(), filter: filter, cancellationToken: cancellationToken);
+        return await PaginatedList<UserListDto>.CreateAsync(source: query.MapUserToListDto(), filter: filter, ct: ct);
     }
 }

@@ -9,14 +9,14 @@ public class ProductModelRepository : GenericRepository<ProductModel>, IProductM
     private readonly DbSet<ProductModel> _entities;
     public ProductModelRepository(ApiDbContext context) : base(context) => _entities = context.ProductModels;
 
-    public async Task<PaginatedList<ProductModelListDto>> GetProductModelList(ProductModelListFilterDto filter, CancellationToken cancellationToken = default)
+    public async Task<PaginatedList<ProductModelListDto>> GetProductModelList(ProductModelListFilterDto filter, CancellationToken ct = default)
     {
         var query = _entities.AsNoTracking();
-        return await PaginatedList<ProductModelListDto>.CreateAsync(source: query.MapProductModelToListDto(), filter: filter, cancellationToken: cancellationToken);
+        return await PaginatedList<ProductModelListDto>.CreateAsync(source: query.MapProductModelToListDto(), filter: filter, ct: ct);
     }
-    public async Task<ProductModelDetailDto?> GetProductModel(int id, CancellationToken cancellationToken = default)
+    public async Task<ProductModelDetailDto?> GetProductModel(int id, CancellationToken ct = default)
     {
         var query = _entities.AsNoTracking().Where(x => x.Id == id);
-        return await query.MapProductModelToDetailDto().FirstOrDefaultAsync(cancellationToken);
+        return await query.MapProductModelToDetailDto().FirstOrDefaultAsync(ct);
     }
 }
