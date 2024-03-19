@@ -4,7 +4,7 @@ namespace Common.Modules.Product;
 
 public static class ProductManualMapper
 {
-    public static IQueryable<ProductListDto> MapProductList(this IQueryable<Product> query) =>
+    public static IQueryable<ProductListDto> MapProductToListDto(this IQueryable<Product> query) =>
         query.Select(x => new ProductListDto
         {
             Id = x.Id,
@@ -16,7 +16,7 @@ public static class ProductManualMapper
         });
 
 
-    public static IQueryable<ProductDetailDto> MapProductDetail(this IQueryable<Product> query) =>
+    public static IQueryable<ProductDetailDto> MapProductToDetailDto(this IQueryable<Product> query) =>
     query.Select(x => new ProductDetailDto
     {
         Id = x.Id,

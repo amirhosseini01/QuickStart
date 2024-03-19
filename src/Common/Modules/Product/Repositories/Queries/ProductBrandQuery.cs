@@ -5,7 +5,7 @@ namespace Common.Modules.Product;
 
 public static class ProductBrandQuery
 {
-    public static async Task<List<ProductBrandListDto>> GetVisibleCategories(this IProductBrandRepo productBrandRepo, CancellationToken ct = default)
+    public static async Task<List<ProductBrandListDto>> GetVisibleBrands(this IProductBrandRepo productBrandRepo, CancellationToken ct = default)
     {
         return await productBrandRepo.FilterQuery(new ProductBrandListFilterDto()
         {

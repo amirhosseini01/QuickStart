@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Common.Modules.Product;
 
-public class ProductBrandRepository : GenericRepository<ProductBrand>, IProductBrandRepo
+public class ProductBrandRepo : GenericRepository<ProductBrand>, IProductBrandRepo
 {
     private readonly DbSet<ProductBrand> _entities;
-    public ProductBrandRepository(ApiDbContext context) : base(context) => _entities = context.ProductBrands;
+    public ProductBrandRepo(ApiDbContext context) : base(context) => _entities = context.ProductBrands;
 
     public IQueryable<ProductBrand> FilterQuery(ProductBrandListFilterDto filter)
     {

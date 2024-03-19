@@ -8,20 +8,17 @@ namespace Common.Modules.Product;
 [ValidateModel]
 public class ProductController : ControllerBase
 {
-    private readonly IProductRepository _productRepository;
-    private readonly FileUploader _fileUploader;
-    public ProductController(IProductRepository productRepository, FileUploader fileUploader)
-    {
-        _productRepository = productRepository;
-        _fileUploader = fileUploader;
-    }
+    private readonly ProductService _productService;
+
+    public ProductController(ProductService productService) =>
+        _productService = productService;
 
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<ProductListDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get([FromQuery] ProductListFilterDto filter, CancellationToken ct)
+    public async Task<IResult> Get([FromQuery] ProductListFilterDto filter, CancellationToken ct = default)
     {
-        var products = await _productRepository.GetProductLists(filter: filter, ct: ct);
+        var products = await _productService.GetAdminListDto(filter: filter, ct: ct);
         return TypedResults.Ok(products);
     }
 
@@ -29,9 +26,9 @@ public class ProductController : ControllerBase
     [ProducesResponseType(typeof(ProductDetailDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IResult> Get(IdDto routeVal, CancellationToken ct)
+    public async Task<IResult> Get(IdDto routeVal, CancellationToken ct = default)
     {
-        var product = await _productRepository.GetProduct(id: routeVal.Id, ct: ct);
+        var product = await _productService.GetByIdAdminDto(routeVal: routeVal, ct: ct);
         if (product is null)
         {
             return TypedResults.NotFound();
@@ -44,18 +41,9 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Post(ProductAdminInputDto input, CancellationToken ct)
+    public async Task<IResult> Post(ProductAdminInputDto input, CancellationToken ct = default)
     {
-        var product = new ProductMapper().AdminInputToProduct(input);
-
-        var imageUploadRes = await _fileUploader.UploadFile(input.Image);
-        product.Image = imageUploadRes;
-
-        var thumbnailUploadRes = await _fileUploader.UploadFile(input.Thumbnail);
-        product.Thumbnail = thumbnailUploadRes;
-
-        await _productRepository.AddAsync(product, ct);
-        await _productRepository.SaveChangesAsync(ct);
+        await _productService.Add(input: input, ct: ct);
 
         return TypedResults.Ok();
     }
@@ -65,28 +53,15 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Put(IdDto routeVal, ProductAdminInputEditDto input, CancellationToken ct)
+    public async Task<IResult> Put(IdDto routeVal, ProductAdminInputEditDto input, CancellationToken ct = default)
     {
-        var product = await _productRepository.FirstOrDefaultAsync(id: routeVal.Id, ct: ct);
+        var product = await _productService.GetByIdAdmin(routeVal: routeVal, ct: ct);
         if (product is null)
         {
             return TypedResults.NotFound();
         }
 
-        if (input.Image is not null)
-        {
-            var imageUploadRes = await _fileUploader.UploadFile(input.Image);
-            product.Image = imageUploadRes;
-        }
-
-        if (input.Thumbnail is not null)
-        {
-            var thumbnailUploadRes = await _fileUploader.UploadFile(input.Thumbnail);
-            product.Thumbnail = thumbnailUploadRes;
-        }
-
-        new ProductMapper().AdminInputToProduct(input, product);
-        await _productRepository.SaveChangesAsync(ct);
+        await _productService.Update(product: product, input: input, ct: ct);
 
         return TypedResults.Ok();
     }
@@ -96,16 +71,15 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Delete(IdDto routeVal, CancellationToken ct)
+    public async Task<IResult> Delete(IdDto routeVal, CancellationToken ct = default)
     {
-        var product = await _productRepository.FirstOrDefaultAsync(id: routeVal.Id, ct: ct);
+        var product = await _productService.GetByIdAdmin(routeVal: routeVal, ct: ct);
         if (product is null)
         {
             return TypedResults.NotFound();
         }
 
-        _productRepository.Remove(product);
-        await _productRepository.SaveChangesAsync(ct);
+        await _productService.Remove(product);
 
         return TypedResults.Ok();
     }
