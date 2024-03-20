@@ -23,7 +23,7 @@ public class SliderListDto
 
 public class SliderListFilterDto : PaginatedListFilter
 {
-
+    public bool? Visible { get; internal set; }
 }
 
 public class SliderDetailDto

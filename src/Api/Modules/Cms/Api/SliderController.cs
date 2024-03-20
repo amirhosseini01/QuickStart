@@ -8,20 +8,16 @@ namespace Common.Modules.Cms;
 [ValidateModel]
 public class SliderController : ControllerBase
 {
-    private readonly ISliderRepository _sliderRepository;
-    private readonly FileUploader _fileUploader;
-    public SliderController(ISliderRepository sliderRepository, FileUploader fileUploader)
-    {
-        _sliderRepository = sliderRepository;
-        _fileUploader = fileUploader;
-    }
+    private readonly SliderService _sliderService;
+    public SliderController(SliderService sliderService) =>
+        _sliderService = sliderService;
 
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<SliderListDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> Get([FromQuery] SliderListFilterDto filter, CancellationToken ct)
     {
-        var sliders = await _sliderRepository.GetSliderLists(filter: filter, ct: ct);
+        var sliders = await _sliderService.GetAdminListDto(filter: filter, ct: ct);
         return TypedResults.Ok(sliders);
     }
 
@@ -31,7 +27,7 @@ public class SliderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> Get(IdDto routeVal, CancellationToken ct)
     {
-        var slider = await _sliderRepository.GetSlider(id: routeVal.Id, ct: ct);
+        var slider = await _sliderService.GetByIdAdminDto(routeVal: routeVal, ct: ct);
         if (slider is null)
         {
             return TypedResults.NotFound();
@@ -46,16 +42,7 @@ public class SliderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IResult> Post(SliderAdminInputDto input, CancellationToken ct)
     {
-        var slider = new SliderMapper().AdminInputToSlider(input);
-
-        var imageUploadRes = await _fileUploader.UploadFile(input.Image);
-        slider.Image = imageUploadRes;
-
-        var thumbnailUploadRes = await _fileUploader.UploadFile(input.Thumbnail);
-        slider.Thumbnail = thumbnailUploadRes;
-
-        await _sliderRepository.AddAsync(slider, ct);
-        await _sliderRepository.SaveChangesAsync(ct);
+        await _sliderService.Add(input: input, ct: ct);
 
         return TypedResults.Ok();
     }
@@ -67,26 +54,13 @@ public class SliderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IResult> Put(IdDto routeVal, SliderAdminInputEditDto input, CancellationToken ct)
     {
-        var slider = await _sliderRepository.FirstOrDefaultAsync(id: routeVal.Id, ct: ct);
+        var slider = await _sliderService.GetByIdAdmin(routeVal: routeVal, ct: ct);
         if (slider is null)
         {
             return TypedResults.NotFound();
         }
 
-        if (input.Image is not null)
-        {
-            var imageUploadRes = await _fileUploader.UploadFile(input.Image);
-            slider.Image = imageUploadRes;
-        }
-
-        if (input.Thumbnail is not null)
-        {
-            var thumbnailUploadRes = await _fileUploader.UploadFile(input.Thumbnail);
-            slider.Thumbnail = thumbnailUploadRes;
-        }
-
-        new SliderMapper().AdminInputToSlider(input, slider);
-        await _sliderRepository.SaveChangesAsync(ct);
+        await _sliderService.Update(slider: slider, input: input, ct: ct);
 
         return TypedResults.Ok();
     }
@@ -98,14 +72,13 @@ public class SliderController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IResult> Delete(IdDto routeVal, CancellationToken ct)
     {
-        var slider = await _sliderRepository.FirstOrDefaultAsync(id: routeVal.Id, ct: ct);
+        var slider = await _sliderService.GetByIdAdmin(routeVal: routeVal, ct: ct);
         if (slider is null)
         {
             return TypedResults.NotFound();
         }
 
-        _sliderRepository.Remove(slider);
-        await _sliderRepository.SaveChangesAsync(ct);
+        await _sliderService.Remove(slider);
 
         return TypedResults.Ok();
     }
