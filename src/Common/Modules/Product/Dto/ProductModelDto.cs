@@ -33,7 +33,7 @@ public class ProductModelDetailDto
 
 public class ProductModelListFilterDto : PaginatedListFilter
 {
-
+    public int? ProductId { get; set; }
 }
 public class ProductModelAdminInputDto
 {
