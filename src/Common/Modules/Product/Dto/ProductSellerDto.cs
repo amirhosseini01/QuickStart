@@ -19,7 +19,7 @@ public class ProductSellerListDto
 
 public class ProductSellerListFilterDto : PaginatedListFilter
 {
-
+    public string? UserId { get; set; }
 }
 
 public class ProductSellerDetailDto
