@@ -71,7 +71,7 @@ public class ProductController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IResult> Delete(IdDto routeVal, CancellationToken ct = default)
+    public async Task<IResult> Remove(IdDto routeVal, CancellationToken ct = default)
     {
         var product = await _productService.GetByIdAdmin(routeVal: routeVal, ct: ct);
         if (product is null)
