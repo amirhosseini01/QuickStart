@@ -10,20 +10,15 @@ public static class DependencyInjection
     {
         services.Scan(scan => scan
             .FromAssembliesOf(typeof(IGenericRepository<>))
+                // repositories
                 .AddClasses(classes => classes.AssignableTo(typeof(IGenericRepository<>)))
                     .AsImplementedInterfaces()
-                    .WithScopedLifetime());
-
-        return services;
-    }
-
-    public static IServiceCollection AddScrutorGenericServices(this IServiceCollection services)
-    {
-        services.Scan(scan => scan
-            .FromAssembliesOf(typeof(IGenericService))
+                    .WithScopedLifetime()
+                // services
                 .AddClasses(classes => classes.AssignableTo(typeof(IGenericService)))
-                    .AsImplementedInterfaces()
-                    .WithScopedLifetime());
+                    .AsSelf()
+                    .WithScopedLifetime()
+                    );
 
         return services;
     }
@@ -40,7 +35,6 @@ public static class DependencyInjection
     public static IServiceCollection AddCustomServices(this IServiceCollection services)
     {
         services.AddScrutorRepositories();
-        services.AddScrutorGenericServices();
 
         services.AddScoped<FileUploader>();
 

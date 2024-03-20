@@ -2,7 +2,7 @@ using Common.Commons;
 
 namespace Common.Modules.User;
 
-public class UserService
+public class UserService : IGenericService
 {
     private readonly IUserRepo _UserRepo;
     public UserService(IUserRepo UserRepository)

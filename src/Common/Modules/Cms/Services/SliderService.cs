@@ -2,7 +2,7 @@ using Common.Commons;
 
 namespace Common.Modules.Cms;
 
-public class SliderService
+public class SliderService : IGenericService
 {
     private readonly ISliderRepo _sliderRepo;
     private readonly FileUploader _fileUploader;

@@ -2,7 +2,7 @@ using Common.Commons;
 
 namespace Common.Modules.Product;
 
-public class ProductStockService
+public class ProductStockService : IGenericService
 {
     private readonly IProductStockRepo _productStockRepo;
     public ProductStockService(IProductStockRepo productStockRepository)
