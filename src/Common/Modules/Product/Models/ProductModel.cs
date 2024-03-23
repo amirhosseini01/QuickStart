@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Common.Commons;
 using Common.Data;
+using Common.Modules.Sale;
 
 namespace Common.Modules.Product;
 
@@ -26,4 +27,5 @@ public class ProductModel : BaseEntity
     [DeleteBehavior(DeleteBehavior.Restrict)]
     public Product Product { get; set; }
     public ICollection<ProductStock> ProductStocks { get; }
+    public ICollection<OrderDetail> OrderDetails { get; }
 }

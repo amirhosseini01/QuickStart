@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Common.Commons;
 using Common.Data;
+using Common.Modules.Sale;
 
 namespace Common.Modules.Product;
 
@@ -12,6 +13,7 @@ public class Product : BaseEntity
     public int ProductSellerId { get; set; }
 
     public int? ViewOrder { get; set; }
+    public int ViewCount { get; set; }
 
     [StringLength(ModelStatics.TitleRequiredLength)]
     public string Title { get; set; }
@@ -42,4 +44,5 @@ public class Product : BaseEntity
     public ICollection<ProductComment> ProductComments { get; }
     public ICollection<ProductModel> ProductModels { get; }
     public ICollection<ProductStock> ProductStocks { get; }
+    public ICollection<OrderDetail> OrderDetails { get; }
 }

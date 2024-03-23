@@ -14,7 +14,7 @@ public class ProductController : ControllerBase
         _productService = productService;
 
     [HttpGet]
-    [ProducesResponseType(typeof(PaginatedList<ProductListDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(PaginatedList<ProductAdminListDto>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> Get([FromQuery] ProductListFilterDto filter, CancellationToken ct = default)
     {

@@ -12,6 +12,7 @@ public class ProductStock : BaseEntity
     public string UserId { get; set; }
     public int ProductId { get; set; }
     public int ProductModelId { get; set; }
+    public bool IsReserved { get; set; }
     public int Value { get; set; }
     public DateTime CreateDate { get; set; }
 

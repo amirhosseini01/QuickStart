@@ -9,14 +9,13 @@ public class ProductVm
 
 }
 
-public class ProductListDto
+public class ProductAdminListDto
 {
     public int Id { get; set; }
     public string Title { get; set; }
     public string Thumbnail { get; set; }
     public bool Saleable { get; set; }
     public bool Visible { get; set; }
-    public decimal Price { get; set; }
     public bool IsSpecialOffer { get; set; }
 }
 
@@ -24,6 +23,7 @@ public class ProductListFilterDto : PaginatedListFilter
 {
     public bool? Visible { get; set; }
     public bool? Saleable { get; set; }
+    public bool? IsSpecialOffer { get; set; }
 }
 
 public class ProductDetailDto
@@ -114,4 +114,23 @@ public class ProductAdminInputEditDto : ProductAdminInputDto
 {
     public new IFormFile? Image { get; set; }
     public new IFormFile? Thumbnail { get; set; }
+}
+
+public class ProductListDto
+{
+    public int Id { get; set; }
+    public int? ViewOrder { get; set; }
+    public string Title { get; set; }
+    public string Thumbnail { get; set; }
+    public decimal? Price { get; set; }
+    public decimal? Discount { get; set; }
+}
+
+public class ProductTopSaleListDto : ProductListDto
+{
+    public int SaleCount { get; set; }
+}
+public class ProductToViewListDto : ProductListDto
+{
+    public int ViewCount { get; set; }
 }

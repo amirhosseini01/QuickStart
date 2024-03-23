@@ -12,7 +12,7 @@ public class ProductService : IGenericService
         _fileUploader = fileUploader;
     }
 
-    public async Task<PaginatedList<ProductListDto>> GetAdminListDto(ProductListFilterDto filter, CancellationToken ct = default)
+    public async Task<PaginatedList<ProductAdminListDto>> GetAdminListDto(ProductListFilterDto filter, CancellationToken ct = default)
     {
         return await _productRepo.GetAdminListDto(filter: filter, ct: ct);
     }
@@ -63,5 +63,29 @@ public class ProductService : IGenericService
     {
         _productRepo.Remove(product);
         await _productRepo.SaveChangesAsync(ct);
+    }
+
+    public async Task<List<ProductListDto>> GetSpecialOffers()
+    {
+        return await _productRepo.GetSpecialOffers();
+    }
+
+    public async Task<List<ProductListDto>> GetTopDiscounts()
+    {
+        return await _productRepo.GetTopDiscounts();
+    }
+
+    public async Task<List<ProductListDto>> GetSuggested()
+    {
+        return await _productRepo.GetSuggested();
+    }
+    public async Task<List<ProductToViewListDto>> GetTopViewCount()
+    {
+        return await _productRepo.GetTopViewCount();
+    }
+
+    public async Task<List<ProductTopSaleListDto>> GetTopSales()
+    {
+        return await _productRepo.GetTopSales();
     }
 }

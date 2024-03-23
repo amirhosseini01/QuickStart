@@ -9,9 +9,14 @@ public class ProductRepo : GenericRepository<Product>, IProductRepo
     private readonly DbSet<Product> _entities;
     public ProductRepo(ApiDbContext context) : base(context) => _entities = context.Products;
 
-    public IQueryable<Product> FilterQuery(ProductListFilterDto filter)
+    public IQueryable<Product> FilterQuery(ProductListFilterDto? filter = null)
     {
         var query = _entities.AsNoTracking();
+
+        if (filter is null)
+        {
+            return query;
+        }
 
         if (filter.Visible is not null)
         {
@@ -21,6 +26,11 @@ public class ProductRepo : GenericRepository<Product>, IProductRepo
         if (filter.Saleable is not null)
         {
             query = query.Where(x => x.Saleable == filter.Saleable.Value);
+        }
+
+        if (filter.IsSpecialOffer is not null)
+        {
+            query = query.Where(x => x.IsSpecialOffer == filter.IsSpecialOffer.Value);
         }
 
         return query;

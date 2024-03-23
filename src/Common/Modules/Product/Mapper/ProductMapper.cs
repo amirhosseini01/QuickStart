@@ -4,16 +4,50 @@ namespace Common.Modules.Product;
 
 public static class ProductManualMapper
 {
-    public static IQueryable<ProductListDto> MapProductToListDto(this IQueryable<Product> query) =>
-        query.Select(x => new ProductListDto
+    public static IQueryable<ProductAdminListDto> MapProductToAdminListDto(this IQueryable<Product> query) =>
+        query.Select(x => new ProductAdminListDto
         {
             Id = x.Id,
             Thumbnail = x.Thumbnail,
             Title = x.Title,
             Saleable = x.Saleable,
             Visible = x.Visible,
+        });
+
+    public static IQueryable<ProductListDto> MapProductToListDto(this IQueryable<Product> query) =>
+        query.Select(x => new ProductListDto
+        {
+            Id = x.Id,
+            ViewOrder = x.ViewOrder,
+            Thumbnail = x.Thumbnail,
+            Title = x.Title,
+            Discount = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
             Price = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault()
         });
+    public static IQueryable<ProductTopSaleListDto> MapProductToSaleListDto(this IQueryable<Product> query) =>
+        query.Select(x => new ProductTopSaleListDto
+        {
+            Id = x.Id,
+            ViewOrder = x.ViewOrder,
+            Thumbnail = x.Thumbnail,
+            Title = x.Title,
+            Discount = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
+            Price = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
+            SaleCount = x.OrderDetails.Count()
+        });
+
+    public static IQueryable<ProductToViewListDto> MapProductToTopViewedDto(this IQueryable<Product> query) =>
+        query.Select(x => new ProductToViewListDto
+        {
+            Id = x.Id,
+            ViewOrder = x.ViewOrder,
+            Thumbnail = x.Thumbnail,
+            Title = x.Title,
+            Discount = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
+            Price = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
+            ViewCount = x.ViewCount
+        });
+
 
 
     public static IQueryable<ProductDetailDto> MapProductToDetailDto(this IQueryable<Product> query) =>

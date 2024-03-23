@@ -1,4 +1,5 @@
 ﻿using Common.Modules.Product;
+using Common.Modules.Sale;
 using Microsoft.AspNetCore.Identity;
 
 namespace Common.Modules.User;
@@ -10,4 +11,5 @@ public class AppUser : IdentityUser
     public ICollection<ProductSeller> ProductSellers { get; }
     public ICollection<ProductComment> ProductComments { get; }
     public ICollection<ProductStock> ProductStocks { get; }
+    public ICollection<Order> Orders { get; }
 }
