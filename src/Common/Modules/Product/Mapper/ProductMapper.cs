@@ -21,6 +21,7 @@ public static class ProductManualMapper
             ViewOrder = x.ViewOrder,
             Thumbnail = x.Thumbnail,
             Title = x.Title,
+            CategoryTitle = x.ProductCategory.Title,
             Discount = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
             Price = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault()
         });
@@ -31,6 +32,7 @@ public static class ProductManualMapper
             ViewOrder = x.ViewOrder,
             Thumbnail = x.Thumbnail,
             Title = x.Title,
+            CategoryTitle = x.ProductCategory.Title,
             Discount = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
             Price = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
             SaleCount = x.OrderDetails.Count()
@@ -43,6 +45,7 @@ public static class ProductManualMapper
             ViewOrder = x.ViewOrder,
             Thumbnail = x.Thumbnail,
             Title = x.Title,
+            CategoryTitle = x.ProductCategory.Title,
             Discount = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
             Price = x.ProductModels.Select(xx => xx.Price).OrderBy(xx => xx).FirstOrDefault(),
             ViewCount = x.ViewCount

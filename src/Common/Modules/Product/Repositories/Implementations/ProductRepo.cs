@@ -21,6 +21,8 @@ public class ProductRepo : GenericRepository<Product>, IProductRepo
         if (filter.Visible is not null)
         {
             query = query.Where(x => x.Visible == filter.Visible.Value);
+            query = query.Where(x => x.ProductCategory.Visible == filter.Visible.Value);
+            query = query.Where(x => x.ProductBrand.Visible == filter.Visible.Value);
         }
 
         if (filter.Saleable is not null)

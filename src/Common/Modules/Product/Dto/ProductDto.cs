@@ -119,6 +119,7 @@ public class ProductAdminInputEditDto : ProductAdminInputDto
 public class ProductListDto
 {
     public int Id { get; set; }
+    public string CategoryTitle { get; set; }
     public int? ViewOrder { get; set; }
     public string Title { get; set; }
     public string Thumbnail { get; set; }
