@@ -7,7 +7,7 @@ namespace Common.Modules.Cms;
 public class SliderRepo : GenericRepository<Slider>, ISliderRepo
 {
     private readonly DbSet<Slider> _entities;
-    public SliderRepo(ApiDbContext context) : base(context) => _entities = context.Sliders;
+    public SliderRepo(BaseDbContext context) : base(context) => _entities = context.Sliders;
 
     public IQueryable<Slider> FilterQuery(SliderListFilterDto? filter = null)
     {

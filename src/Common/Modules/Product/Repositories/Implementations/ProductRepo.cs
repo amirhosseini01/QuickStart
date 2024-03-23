@@ -7,7 +7,7 @@ namespace Common.Modules.Product;
 public class ProductRepo : GenericRepository<Product>, IProductRepo
 {
     private readonly DbSet<Product> _entities;
-    public ProductRepo(ApiDbContext context) : base(context) => _entities = context.Products;
+    public ProductRepo(BaseDbContext context) : base(context) => _entities = context.Products;
 
     public IQueryable<Product> FilterQuery(ProductListFilterDto? filter = null)
     {

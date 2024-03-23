@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Common.Data;
 
-public class ApiDbContext : IdentityDbContext<AppUser>
+public class BaseDbContext : IdentityDbContext<AppUser>
 {
     //  dotnet ef --startup-project Server migrations add ... --project Commons --context ApiDbContext
     //  dotnet ef --startup-project Server database update --project Infrastructure --context ApiDbContext
-    public ApiDbContext(DbContextOptions<ApiDbContext> options) : base(options) { }
+    public BaseDbContext(DbContextOptions<BaseDbContext> options) : base(options) { }
 
     // products
     public DbSet<Product> Products { get; set; }

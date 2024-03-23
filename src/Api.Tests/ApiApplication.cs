@@ -7,9 +7,9 @@ internal sealed class ApiApplication : WebApplicationFactory<Program>
 {
     private readonly SqliteConnection _sqliteConnection = new("Filename=:memory:");
 
-    public ApiDbContext CreateApiDbContext()
+    public BaseDbContext CreateApiDbContext()
     {
-        var db = this.Services.GetRequiredService<IDbContextFactory<ApiDbContext>>().CreateDbContext();
+        var db = this.Services.GetRequiredService<IDbContextFactory<BaseDbContext>>().CreateDbContext();
         db.Database.EnsureCreated();
         return db;
     }
@@ -31,10 +31,10 @@ internal sealed class ApiApplication : WebApplicationFactory<Program>
         builder.ConfigureServices(services =>
         {
             // We're going to use the factory from our tests
-            services.AddDbContextFactory<ApiDbContext>();
+            services.AddDbContextFactory<BaseDbContext>();
 
             // We need to replace the configuration for the DbContext to use a different configured database
-            services.AddDbContextOptions<ApiDbContext>(o => o.UseSqlite(_sqliteConnection));
+            services.AddDbContextOptions<BaseDbContext>(o => o.UseSqlite(_sqliteConnection));
 
             // Lower the requirements for the tests
             services.Configure<IdentityOptions>(o =>

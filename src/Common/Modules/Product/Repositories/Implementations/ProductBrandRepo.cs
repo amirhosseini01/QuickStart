@@ -7,7 +7,7 @@ namespace Common.Modules.Product;
 public class ProductBrandRepo : GenericRepository<ProductBrand>, IProductBrandRepo
 {
     private readonly DbSet<ProductBrand> _entities;
-    public ProductBrandRepo(ApiDbContext context) : base(context) => _entities = context.ProductBrands;
+    public ProductBrandRepo(BaseDbContext context) : base(context) => _entities = context.ProductBrands;
 
     public IQueryable<ProductBrand> FilterQuery(ProductBrandListFilterDto filter)
     {

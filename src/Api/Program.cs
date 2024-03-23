@@ -17,9 +17,9 @@ builder.Services.AddAuthorizationBuilder().AddCurrentUserHandler();
 builder.Services.AddTokenService();
 
 var connectionString = builder.Configuration.GetConnectionString("MainConnection");
-builder.Services.AddSqlServer<ApiDbContext>(connectionString);
+builder.Services.AddSqlServer<BaseDbContext>(connectionString);
 
-builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<ApiDbContext>();
+builder.Services.AddIdentityCore<AppUser>().AddEntityFrameworkStores<BaseDbContext>();
 
 builder.Services.AddControllers();
 
