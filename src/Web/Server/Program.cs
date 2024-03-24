@@ -1,6 +1,10 @@
+using Server.Data;
 using Web.Server;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration.GetConnectionString("MainConnection");
+builder.Services.AddSqlServer<ServerDbContext>(connectionString);
 
 // Configure auth with the front end
 builder.AddAuthentication();

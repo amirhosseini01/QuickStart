@@ -67,7 +67,7 @@ public static class ProductQuery
             Visible = true,
         });
         return await query.MapProductToSaleListDto()
-            .OrderBy(x => x.Discount).ThenBy(x => x.Price).ThenByDescending(x => x.Id)
+            .OrderByDescending(x => x.SaleCount).ThenByDescending(x => x.Id)
         .ToListAsync(ct);
     }
     public static async Task<List<ProductToViewListDto>> GetTopViewCount(this IProductRepo productRepo, CancellationToken ct = default)
@@ -78,7 +78,7 @@ public static class ProductQuery
             Visible = true,
         });
         return await query.MapProductToTopViewedDto()
-            .OrderBy(x => x.ViewOrder)
+            .OrderBy(x => x.ViewCount)
         .ToListAsync(ct);
     }
 }
