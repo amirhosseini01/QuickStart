@@ -65,26 +65,26 @@ public class ProductService : IGenericService
         await _productRepo.SaveChangesAsync(ct);
     }
 
-    public async Task<List<ProductListDto>> GetSpecialOffers()
+    public async Task<PaginatedList<ProductListDto>> GetSpecialOffers()
     {
         return await _productRepo.GetSpecialOffers();
     }
 
-    public async Task<List<ProductListDto>> GetTopDiscounts()
+    public async Task<PaginatedList<ProductListDto>> GetTopDiscounts()
     {
         return await _productRepo.GetTopDiscounts();
     }
 
-    public async Task<List<ProductListDto>> GetSuggested()
+    public async Task<PaginatedList<ProductListDto>> GetSuggested()
     {
         return await _productRepo.GetSuggested();
     }
-    public async Task<List<ProductToViewListDto>> GetTopViewCount()
+    public async Task<PaginatedList<ProductToViewListDto>> GetTopViewCount()
     {
         return await _productRepo.GetTopViewCount();
     }
 
-    public async Task<List<ProductTopSaleListDto>> GetTopSales()
+    public async Task<PaginatedList<ProductTopSaleListDto>> GetTopSales()
     {
         return await _productRepo.GetTopSales();
     }

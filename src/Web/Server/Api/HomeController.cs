@@ -43,10 +43,10 @@ public class HomeController : ControllerBase
 
 public class HomeDataDto
 {
-    public IList<ProductListDto> ProductsSpecialOffers { get; set; }
-    public IList<ProductListDto> ProductsSuggested { get; set; }
-    public IList<ProductTopSaleListDto> ProductsTopSales { get; set; }
-    public IList<ProductListDto> ProductsTopDiscount { get; set; }
-    public IList<ProductToViewListDto> ProductsTopViewed { get; set; }
+    public PaginatedList<ProductListDto> ProductsSpecialOffers { get; set; }
+    public PaginatedList<ProductListDto> ProductsSuggested { get; set; }
+    public PaginatedList<ProductTopSaleListDto> ProductsTopSales { get; set; }
+    public PaginatedList<ProductListDto> ProductsTopDiscount { get; set; }
+    public PaginatedList<ProductToViewListDto> ProductsTopViewed { get; set; }
     public PaginatedList<ProductCategoryListDto> ProductCategories { get; set; }
 }

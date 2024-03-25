@@ -22,63 +22,76 @@ public static class ProductQuery
         return await query.MapProductToDetailDto().FirstOrDefaultAsync(ct);
     }
 
-    public static async Task<List<ProductListDto>> GetSpecialOffers(this IProductRepo productRepo, CancellationToken ct = default)
+    public static async Task<PaginatedList<ProductListDto>> GetSpecialOffers(this IProductRepo productRepo, CancellationToken ct = default)
     {
-        var query = productRepo.FilterQuery(filter: new()
+        var filter = new ProductListFilterDto()
         {
             Saleable = true,
             Visible = true,
             IsSpecialOffer = true,
-        });
-        return await query.MapProductToListDto()
-            .OrderByDescending(x => x.ViewOrder).ThenByDescending(x => x.Id).ToListAsync(ct);
+        };
+        var query = productRepo.FilterQuery(filter: filter);
+        return await PaginatedList<ProductListDto>.CreateAsync(source:
+            query.MapProductToListDto()
+            .OrderByDescending(x => x.ViewOrder).ThenByDescending(x => x.Id),
+            filter: filter,
+            ct: ct);
     }
 
-    public static async Task<List<ProductListDto>> GetTopDiscounts(this IProductRepo productRepo, CancellationToken ct = default)
+    public static async Task<PaginatedList<ProductListDto>> GetTopDiscounts(this IProductRepo productRepo, CancellationToken ct = default)
     {
-        var query = productRepo.FilterQuery(filter: new()
+        var filter = new ProductListFilterDto()
         {
             Saleable = true,
             Visible = true,
-        });
-        return await query.MapProductToListDto()
+        };
+        var query = productRepo.FilterQuery(filter: filter);
+        return await PaginatedList<ProductListDto>.CreateAsync(source:
+            query.MapProductToListDto()
             .OrderByDescending(x => x.Discount).ThenBy(x => x.Price)
-            .ThenByDescending(x => x.ViewOrder).ThenByDescending(x => x.Id)
-        .ToListAsync(ct);
+            .ThenByDescending(x => x.ViewOrder).ThenByDescending(x => x.Id),
+            filter: filter,
+            ct: ct);
     }
 
-    public static async Task<List<ProductListDto>> GetSuggested(this IProductRepo productRepo, CancellationToken ct = default)
+    public static async Task<PaginatedList<ProductListDto>> GetSuggested(this IProductRepo productRepo, CancellationToken ct = default)
     {
-        var query = productRepo.FilterQuery(filter: new()
+        var filter = new ProductListFilterDto()
         {
             Saleable = true,
             Visible = true,
-        });
-        return await query.MapProductToListDto()
-            .OrderBy(x => x.ViewOrder).ThenByDescending(x => x.Id)
-        .ToListAsync(ct);
+        };
+        var query = productRepo.FilterQuery(filter: filter);
+        return await PaginatedList<ProductListDto>.CreateAsync(
+            source: query.MapProductToListDto().OrderBy(x => x.ViewOrder).ThenByDescending(x => x.Id),
+            filter: filter,
+            ct: ct);
     }
 
-    public static async Task<List<ProductTopSaleListDto>> GetTopSales(this IProductRepo productRepo, CancellationToken ct = default)
+    public static async Task<PaginatedList<ProductTopSaleListDto>> GetTopSales(this IProductRepo productRepo, CancellationToken ct = default)
     {
-        var query = productRepo.FilterQuery(filter: new()
+        var filter = new ProductListFilterDto()
         {
             Saleable = true,
             Visible = true,
-        });
-        return await query.MapProductToSaleListDto()
-            .OrderByDescending(x => x.SaleCount).ThenByDescending(x => x.Id)
-        .ToListAsync(ct);
+        };
+        var query = productRepo.FilterQuery(filter: filter);
+        return await PaginatedList<ProductTopSaleListDto>.CreateAsync(
+            source: query.MapProductToSaleListDto().OrderByDescending(x => x.SaleCount).ThenByDescending(x => x.Id),
+            filter: filter,
+            ct: ct);
     }
-    public static async Task<List<ProductToViewListDto>> GetTopViewCount(this IProductRepo productRepo, CancellationToken ct = default)
+    public static async Task<PaginatedList<ProductToViewListDto>> GetTopViewCount(this IProductRepo productRepo, CancellationToken ct = default)
     {
-        var query = productRepo.FilterQuery(filter: new()
+        var filter = new ProductListFilterDto()
         {
             Saleable = true,
             Visible = true,
-        });
-        return await query.MapProductToTopViewedDto()
-            .OrderBy(x => x.ViewCount)
-        .ToListAsync(ct);
+        };
+        var query = productRepo.FilterQuery(filter: filter);
+        return await PaginatedList<ProductToViewListDto>.CreateAsync(
+            source: query.MapProductToTopViewedDto().OrderBy(x => x.ViewCount),
+            filter: filter,
+            ct: ct);
     }
 }
