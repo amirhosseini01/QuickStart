@@ -9,7 +9,7 @@ public class ProductCategoryVm
 
 }
 
-public class ProductCategoryListDto
+public class ProductCategoryAdminListDto
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -23,7 +23,7 @@ public class ProductCategoryListFilterDto : PaginatedListFilter
     public bool? Visible { get; set; }
 }
 
-public class ProductCategoryDetailDto
+public class ProductCategoryAdminDetailDto
 {
     public int Id { get; set; }
     public string Title { get; set; }
@@ -43,4 +43,12 @@ public class ProductCategoryAdminInputDto
     public int? ViewOrder { get; set; }
 
     public IFormFile? Image { get; set; }
+}
+
+public class ProductCategoryListDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public int? ViewOrder { get; set; }
+    public string? Image { get; set; }
 }

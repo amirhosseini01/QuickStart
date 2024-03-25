@@ -8,12 +8,12 @@ namespace Common.Modules.Product;
 [ValidateModel]
 public class ProductCategoryController : ControllerBase
 {
-    private readonly ProductCategoryServices _productCategoryServices;
-    public ProductCategoryController(ProductCategoryServices productCategoryServices) =>
+    private readonly ProductCategoryService _productCategoryServices;
+    public ProductCategoryController(ProductCategoryService productCategoryServices) =>
         _productCategoryServices = productCategoryServices;
 
     [HttpGet]
-    [ProducesResponseType(typeof(PaginatedList<ProductCategoryListDto>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(PaginatedList<ProductCategoryAdminListDto>), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> GetList([FromQuery] ProductCategoryListFilterDto filter, CancellationToken ct = default)
     {
@@ -22,7 +22,7 @@ public class ProductCategoryController : ControllerBase
     }
 
     [HttpGet("{Id}")]
-    [ProducesResponseType(typeof(ProductCategoryDetailDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(ProductCategoryAdminDetailDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IResult> GetById(IdDto routeVal, CancellationToken ct = default)

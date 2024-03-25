@@ -10,9 +10,14 @@ public class ProductCategoryRepo : GenericRepository<ProductCategory>, IProductC
     public ProductCategoryRepo(BaseDbContext context) : base(context) =>
         _entities = context.ProductCategories;
 
-    public IQueryable<ProductCategory> FilterQuery(ProductCategoryListFilterDto filter)
+    public IQueryable<ProductCategory> FilterQuery(ProductCategoryListFilterDto? filter = null)
     {
         var query = _entities.AsNoTracking();
+
+        if (filter is null)
+        {
+            return query;
+        }
 
         if (filter.Visible is not null)
         {

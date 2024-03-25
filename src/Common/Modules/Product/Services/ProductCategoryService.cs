@@ -2,22 +2,22 @@ using Common.Commons;
 
 namespace Common.Modules.Product;
 
-public class ProductCategoryServices : IGenericService
+public class ProductCategoryService : IGenericService
 {
     private readonly IProductCategoryRepo _productCategoryRepo;
     private readonly FileUploader _fileUploader;
-    public ProductCategoryServices(IProductCategoryRepo productCategoryRepo, FileUploader fileUploader)
+    public ProductCategoryService(IProductCategoryRepo productCategoryRepo, FileUploader fileUploader)
     {
         _productCategoryRepo = productCategoryRepo;
         _fileUploader = fileUploader;
     }
 
-    public async Task<PaginatedList<ProductCategoryListDto>> GetAdminList(ProductCategoryListFilterDto filter, CancellationToken ct = default)
+    public async Task<PaginatedList<ProductCategoryAdminListDto>> GetAdminList(ProductCategoryListFilterDto filter, CancellationToken ct = default)
     {
         return await _productCategoryRepo.GetAdminList(filter: filter, ct: ct);
     }
 
-    public async Task<ProductCategoryDetailDto?> GetByIdAdminDto(IdDto routeVal, CancellationToken ct = default)
+    public async Task<ProductCategoryAdminDetailDto?> GetByIdAdminDto(IdDto routeVal, CancellationToken ct = default)
     {
         return await _productCategoryRepo.GetByIdAdminDto(routeVal: routeVal, ct: ct);
     }
@@ -57,5 +57,10 @@ public class ProductCategoryServices : IGenericService
     {
         _productCategoryRepo.Remove(entity);
         await _productCategoryRepo.SaveChangesAsync(ct);
+    }
+
+    public async Task<PaginatedList<ProductCategoryListDto>> GetList(CancellationToken ct = default)
+    {
+        return await _productCategoryRepo.GetList(ct: ct);
     }
 }

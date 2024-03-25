@@ -10,9 +10,14 @@ namespace Server.Api;
 public class HomeController : ControllerBase
 {
     private readonly ProductService _productService;
+    private readonly ProductCategoryService _productCategoryService;
 
-    public HomeController(ProductService productService) =>
+    public HomeController(ProductService productService,
+        ProductCategoryService productCategoryService)
+    {
         _productService = productService;
+        this._productCategoryService = productCategoryService;
+    }
 
     [HttpGet("{Id}")]
     [ProducesResponseType(typeof(HomeDataDto), StatusCodes.Status200OK)]
@@ -26,7 +31,10 @@ public class HomeController : ControllerBase
             ProductsTopDiscount = await _productService.GetTopDiscounts(),
             ProductsTopSales = await _productService.GetTopSales(),
             ProductsSuggested = await _productService.GetSuggested(),
-            ProductsTopViewed = await _productService.GetTopViewCount()
+            ProductsTopViewed = await _productService.GetTopViewCount(),
+
+
+            ProductCategories = await _productCategoryService.GetList()
         };
 
         return TypedResults.Ok(response);
@@ -40,4 +48,5 @@ public class HomeDataDto
     public IList<ProductTopSaleListDto> ProductsTopSales { get; set; }
     public IList<ProductListDto> ProductsTopDiscount { get; set; }
     public IList<ProductToViewListDto> ProductsTopViewed { get; set; }
+    public PaginatedList<ProductCategoryListDto> ProductCategories { get; set; }
 }
