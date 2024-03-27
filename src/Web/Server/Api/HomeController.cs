@@ -19,7 +19,6 @@ public class HomeController : ControllerBase
         this._productCategoryService = productCategoryService;
     }
 
-    [HttpGet("{Id}")]
     [ProducesResponseType(typeof(HomeDataDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

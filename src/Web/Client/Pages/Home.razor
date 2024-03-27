@@ -1,5 +1,6 @@
 ﻿@using Client.Components.Products
 @using Client.Components.Cms
+@inject ApiClient Client
 @page "/"
 
 <Slider />
@@ -34,3 +35,10 @@
 <News />
 
 <Footer />
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+}
